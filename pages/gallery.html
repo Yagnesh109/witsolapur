@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Gallery | WIT Solapur</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/about-pages.css">
+  <!-- Creative handwriting Google Font for Polaroids -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* Super Creative & Modern Stacked Photo Album Gallery Styles */
+    :root {
+      --primary-gradient: linear-gradient(135deg, #0f4c81 0%, #1e3a8a 100%);
+      --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      --hover-shadow: 0 25px 50px rgba(15, 76, 129, 0.15);
+      --glass-bg: rgba(255, 255, 255, 0.45);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+      --card-radius: 24px;
+    }
+
+    .gallery-section {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    /* Page Header Enhancements */
+    .page-header {
+      position: relative;
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: radial-gradient(circle at center, rgba(56, 189, 248, 0.06) 0%, transparent 70%);
+      border-radius: 30px;
+      margin-bottom: 40px;
+    }
+
+    .page-header h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, var(--secondary-deep), #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    /* 3D Stacked Album Cards Grid */
+    .albums-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 56px 40px;
+      margin-top: 30px;
+      animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .album-card-container {
+      position: relative;
+      height: 310px;
+      perspective: 1000px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .album-stack {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+    }
+
+    .stack-photo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(15, 76, 129, 0.08);
+      border: 4px solid var(--white);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15), box-shadow 0.5s ease, opacity 0.4s ease;
+      box-sizing: border-box;
+    }
+
+    .stack-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Stacking layers depth offsets */
+    .stack-photo.photo-under-1 {
+      transform: translateZ(-24px) scale(0.91) translateY(-14px);
+      opacity: 0.55;
+    }
+
+    .stack-photo.photo-under-2 {
+      transform: translateZ(-12px) scale(0.955) translateY(-7px);
+      opacity: 0.8;
+    }
+
+    .stack-photo.photo-top {
+      transform: translateZ(0) scale(1);
+      z-index: 3;
+    }
+
+    /* Stack Hover Actions */
+    .album-card-container:hover .album-stack {
+      transform: translateY(-10px);
+    }
+
+    .album-card-container:hover .photo-under-1 {
+      transform: translateZ(-24px) scale(0.93) rotate(-8deg) translate(-18px, -18px);
+      opacity: 0.75;
+      box-shadow: 0 12px 30px rgba(15, 76, 129, 0.16);
+    }
+
+    .album-card-container:hover .photo-under-2 {
+      transform: translateZ(-12px) scale(0.975) rotate(8deg) translate(18px, -12px);
+      opacity: 0.95;
+      box-shadow: 0 12px 30px rgba(15, 76, 129, 0.16);
+    }
+
+    .album-card-container:hover .photo-top {
+      transform: translateZ(12px) scale(1.03);
+      box-shadow: 0 20px 45px rgba(15, 76, 129, 0.22);
+    }
+
+    /* Album Metadata Styling */
+    .album-meta {
+      margin-top: 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .album-meta-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      margin: 0;
+      max-width: 90%;
+      text-align: center;
+      transition: color 0.3s ease;
+    }
+
+    .album-card-container:hover .album-meta-title {
+      color: var(--secondary-royal);
+    }
+
+    .album-photo-count {
+      display: inline-block;
+      margin-top: 4px;
+      background: rgba(15, 76, 129, 0.06);
+      color: var(--secondary-royal);
+      padding: 4px 14px;
+      border-radius: 99px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+      border: 1px solid rgba(15, 76, 129, 0.04);
+    }
+
+    /* --- Clean Album View (Floating on page) --- */
+    .album-view {
+      display: none;
+      animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .album-view-wrapper {
+      position: relative;
+      padding: 24px 0;
+      margin-top: 20px;
+      z-index: 1;
+    }
+
+    .album-view-header {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 48px;
+      position: relative;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      padding: 12px 24px;
+      border-radius: 99px;
+      color: var(--secondary-deep);
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      align-self: flex-start;
+      font-family: inherit;
+    }
+
+    .back-btn:hover {
+      background: var(--secondary-deep);
+      color: var(--white);
+      border-color: transparent;
+      transform: translateX(-4px);
+      box-shadow: 0 10px 25px rgba(15, 76, 129, 0.2);
+    }
+
+    .album-view-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--secondary-deep);
+      margin: 0;
+      line-height: 1.15;
+    }
+
+    .album-view-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 800px;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Polaroid Layout Grid */
+    .polaroid-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 48px;
+      padding: 20px 10px;
+    }
+
+    .polaroid-card {
+      position: relative;
+      background: var(--white);
+      padding: 16px 16px 32px 16px;
+      border-radius: 4px;
+      box-shadow: 0 12px 28px rgba(15, 76, 129, 0.12); /* Clean soft shadow on page */
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1;
+    }
+
+    /* Scatter rotations for Polaroid snapshots */
+    .polaroid-card:nth-child(4n+1) {
+      transform: rotate(-3.5deg) translateY(4px);
+    }
+    .polaroid-card:nth-child(4n+2) {
+      transform: rotate(2.5deg) translateY(-4px);
+    }
+    .polaroid-card:nth-child(4n+3) {
+      transform: rotate(-1.5deg) translateY(6px);
+    }
+    .polaroid-card:nth-child(4n+4) {
+      transform: rotate(3.5deg) translateY(-2px);
+    }
+
+    /* Pushpins styled on top of Polaroid cards */
+    .polaroid-card::before {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      z-index: 10;
+      box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.3), 
+        inset 0 1px 2px rgba(255, 255, 255, 0.5),
+        2px 6px 8px rgba(0, 0, 0, 0.22); /* Shadow cast by pin onto polaroid */
+      transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .polaroid-card::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: calc(50% - 1px);
+      width: 2px;
+      height: 10px;
+      background: linear-gradient(90deg, #d1d5db, #9ca3af);
+      transform: rotate(15deg);
+      z-index: 9;
+      box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.15);
+      transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Multi-color pushpin heads based on card indexes */
+    .polaroid-card:nth-child(4n+1)::before {
+      background: radial-gradient(circle at 4px 4px, #f43f5e 30%, #be123c 70%, #881337 100%); /* Red */
+    }
+    .polaroid-card:nth-child(4n+2)::before {
+      background: radial-gradient(circle at 4px 4px, #3b82f6 30%, #1d4ed8 70%, #1e3a8a 100%); /* Blue */
+    }
+    .polaroid-card:nth-child(4n+3)::before {
+      background: radial-gradient(circle at 4px 4px, #10b981 30%, #047857 70%, #064e3b 100%); /* Green */
+    }
+    .polaroid-card:nth-child(4n+4)::before {
+      background: radial-gradient(circle at 4px 4px, #eab308 30%, #a16207 70%, #713f12 100%); /* Yellow */
+    }
+
+    /* Hover actions: When card lifts up, pushpin stays stuck in the board! */
+    .polaroid-card:hover {
+      transform: rotate(0deg) scale(1.08) translateY(-16px);
+      box-shadow: 0 30px 60px rgba(15, 76, 129, 0.22);
+      z-index: 10;
+      border-color: rgba(15, 76, 129, 0.15);
+    }
+
+    .polaroid-card:hover::before {
+      transform: translateX(-50%) translateY(13px) scale(0.85); /* Sinks down relative to card */
+    }
+
+    .polaroid-card:hover::after {
+      transform: rotate(15deg) translateY(10px) scaleY(0.5); /* Slides down relative to card */
+    }
+
+    .polaroid-img-wrapper {
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .polaroid-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .polaroid-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .polaroid-caption {
+      margin-top: 18px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .polaroid-tag {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--secondary-royal);
+    }
+
+    .polaroid-title {
+      font-family: 'Caveat', 'Comic Sans MS', cursive, sans-serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    /* Lightbox Modal Styling */
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 15, 25, 0.96);
+      backdrop-filter: blur(12px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 85%;
+      max-height: 80%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 70vh;
+      border-radius: 16px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      object-fit: contain;
+      transform: scale(0.93);
+      transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.25s ease;
+    }
+
+    .lightbox-modal.active .lightbox-img {
+      transform: scale(1);
+    }
+
+    .lightbox-caption {
+      color: var(--white);
+      margin-top: 24px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: -0.01em;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .lightbox-counter {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.88rem;
+      margin-top: 8px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    /* Glassmorphic Lightbox Navigation Buttons */
+    .lightbox-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      user-select: none;
+    }
+
+    .lightbox-nav-btn:hover {
+      background: var(--white);
+      color: var(--secondary-deep);
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .lightbox-prev {
+      left: 40px;
+    }
+
+    .lightbox-next {
+      right: 40px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .lightbox-close:hover {
+      background: var(--white);
+      color: var(--secondary-deep);
+      transform: scale(1.1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .albums-grid {
+        gap: 50px 28px;
+      }
+      .lightbox-prev {
+        left: 20px;
+      }
+      .lightbox-next {
+        right: 20px;
+      }
+      .lightbox-close {
+        top: 20px;
+        right: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .album-view-wrapper {
+        padding: 24px;
+        border-radius: 24px;
+      }
+      .polaroid-grid {
+        gap: 32px;
+      }
+      .polaroid-card {
+        padding: 12px 12px 24px 12px;
+      }
+      .polaroid-card:nth-child(n) {
+        transform: none !important; /* Flat layout on mobile */
+      }
+      .polaroid-card:hover {
+        transform: translateY(-8px) !important;
+      }
+      .polaroid-img-wrapper {
+        height: 180px;
+      }
+      .album-view-title {
+        font-size: 1.8rem;
+      }
+      .lightbox-nav-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+      }
+      .lightbox-prev {
+        left: 10px;
+      }
+      .lightbox-next {
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+<body class="about-page">
+
+  <!-- --- Header / Navigation --- -->
+  <header class="site-header site-header--dept" id="siteHeader">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="../index.html" aria-label="WIT home">
+        <img src="../assets/images/brand/logo.png" alt="Walchand Institute of Technology logo">
+      </a>
+
+      <button class="menu-toggle dept-sidebar-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-list dept-nav-links" id="navList">
+        <li><a class="nav-link" href="../index.html">Home</a></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="about">About</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="academics">Academics</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="admissions">Admissions</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="research">Research</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="campus">Campus Life</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="examination">Examination</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="contact">Contact</button></li>
+      </ul>
+    </nav>
+
+    <div class="mega-menu" id="megaMenu" aria-hidden="true"></div>
+  </header>
+
+  <!-- --- Main Container --- -->
+  <main class="about-container">
+    <header class="page-header">
+      <h1>Campus Gallery</h1>
+      <p class="subtitle">Experience our state-of-the-art facilities, laboratories, fests, and campus life through curated visual albums.</p>
+    </header>
+
+    <div class="gallery-section">
+      <!-- Albums Selection Section -->
+      <div id="albumsGridSection">
+        <div class="albums-grid" id="albumsGrid">
+          <!-- Populated Dynamically via Javascript -->
+        </div>
+      </div>
+
+      <!-- Individual Album View Section (Hidden initially) -->
+      <div id="photoGridSection" class="album-view">
+        <div class="album-view-wrapper">
+          <div class="album-view-header">
+            <button class="back-btn" id="backToAlbumsBtn">
+              <span aria-hidden="true">&larr;</span> Back to Albums
+            </button>
+            <h2 class="album-view-title" id="albumViewTitle">Album Title</h2>
+          </div>
+          <div class="polaroid-grid" id="photoGrid">
+            <!-- Populated Dynamically via Javascript as Polaroids pinned directly on screen background -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- --- Lightbox Modal Overlay --- -->
+  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">&times;</button>
+    <button class="lightbox-nav-btn lightbox-prev" id="lightboxPrev" aria-label="Previous image">&#10094;</button>
+    <div class="lightbox-content">
+      <img src="" alt="" class="lightbox-img" id="lightboxImg">
+      <div class="lightbox-caption" id="lightboxCaption">Caption Text</div>
+      <div class="lightbox-counter" id="lightboxCounter">1 of 5</div>
+    </div>
+    <button class="lightbox-nav-btn lightbox-next" id="lightboxNext" aria-label="Next image">&#10095;</button>
+  </div>
+
+  <!-- --- Footer --- -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-brand" href="../index.html">
+          <img src="../assets/images/brand/logo.png" alt="WIT logo">
+          <div class="foot" style="display: flex; flex-direction: column;">
+            <h3>S.A.P.D. Jain Pathshala's</h3>
+            <h3>Walchand Institute of Technology</h3>
+            <h3>An Autonomous Institute</h3>
+          </div>
+        </a>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Walchand Hirachand Marg, Ashok Chowk, Solapur, Maharashtra</p>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@witsolapur.org" target="_blank" rel="noopener"
+          aria-label="Email principal@witsolapur.org">principal@witsolapur.org</a>
+        <p>+91 217 265 2700</p>
+      </div>
+      <div>
+        <h3>Social Media</h3>
+        <div class="social-links">
+          <a href="https://www.facebook.com/witsolapur" aria-label="Facebook">f</a>
+          <a href="https://www.linkedin.com/school/walchand-institute-of-technology-solapur/"
+            aria-label="LinkedIn">in</a>
+          <a href="https://x.com/SolapurWit" aria-label="Twitter">t</a>
+          <a href="https://www.instagram.com/wit_solapur_official/" aria-label="Instagram">ig</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Walchand Institute of Technology, Solapur.</span>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+
+  <script>
+    // Curated album data mapping all available campus images into creative galleries
+    const albums = [
+      {
+        id: "atharva",
+        title: "Atharva",
+        description: "Capturing the vibrant energy, cultural performances, and student activities from the Atharva fest.",
+        cover: "../assets/images/gallery/atharva/1.jpg",
+        images: [
+          { src: "../assets/images/gallery/atharva/1.jpg", title: "Atharva Celebrations - Event 1", tag: "Atharva" },
+          { src: "../assets/images/gallery/atharva/2.jpg", title: "Atharva Celebrations - Event 2", tag: "Atharva" },
+          { src: "../assets/images/gallery/atharva/3.jpg", title: "Atharva Celebrations - Event 3", tag: "Atharva" },
+          { src: "../assets/images/gallery/atharva/4.jpg", title: "Atharva Celebrations - Event 4", tag: "Atharva" },
+          { src: "../assets/images/gallery/atharva/5.jpg", title: "Atharva Celebrations - Event 5", tag: "Atharva" },
+          { src: "../assets/images/gallery/atharva/6.jpg", title: "Atharva Celebrations - Event 6", tag: "Atharva" }
+        ]
+      },
+      {
+        id: "bloodcamp",
+        title: "Blood Donation Camp",
+        description: "Annual blood donation camp organized on campus, demonstrating our commitment to social welfare.",
+        cover: "../assets/images/gallery/bloodcamp/1.jpg",
+        images: [
+          { src: "../assets/images/gallery/bloodcamp/1.jpg", title: "Blood Donation Drive Inauguration", tag: "Blood Camp" },
+          { src: "../assets/images/gallery/bloodcamp/2.jpg", title: "Student and Faculty Donors", tag: "Blood Camp" },
+          { src: "../assets/images/gallery/bloodcamp/3.jpg", title: "Volunteer Coordinators Group", tag: "Blood Camp" }
+        ]
+      },
+      {
+        id: "scitech",
+        title: "SciTech Exhibition",
+        description: "Showcasing student-designed science projects, engineering models, and innovative technological solutions.",
+        cover: "../assets/images/gallery/scitech/1.jpg",
+        images: [
+          { src: "../assets/images/gallery/scitech/1.jpg", title: "SciTech Model Presentation 1", tag: "SciTech" },
+          { src: "../assets/images/gallery/scitech/2.jpg", title: "SciTech Model Presentation 2", tag: "SciTech" },
+          { src: "../assets/images/gallery/scitech/3.jpg", title: "SciTech Model Presentation 3", tag: "SciTech" },
+          { src: "../assets/images/gallery/scitech/4.jpg", title: "SciTech Model Presentation 4", tag: "SciTech" },
+          { src: "../assets/images/gallery/scitech/5.jpg", title: "SciTech Model Presentation 5", tag: "SciTech" },
+          { src: "../assets/images/gallery/scitech/6.jpg", title: "SciTech Model Presentation 6", tag: "SciTech" },
+          { src: "../assets/images/gallery/scitech/7.jpg", title: "SciTech Model Presentation 7", tag: "SciTech" },
+          { src: "../assets/images/gallery/scitech/8.jpg", title: "SciTech Model Presentation 8", tag: "SciTech" },
+          { src: "../assets/images/gallery/scitech/9.jpg", title: "SciTech Model Presentation 9", tag: "SciTech" },
+          { src: "../assets/images/gallery/scitech/10.jpg", title: "SciTech Model Presentation 10", tag: "SciTech" }
+        ]
+      },
+      {
+        id: "sih",
+        title: "Smart India Hackathon (SIH)",
+        description: "Innovative prototype building and coding sprints by WIT teams participating in the Smart India Hackathon.",
+        cover: "../assets/images/gallery/sih/1.jpg",
+        images: [
+          { src: "../assets/images/gallery/sih/1.jpg", title: "SIH Team Brainstorming", tag: "SIH" },
+          { src: "../assets/images/gallery/sih/2.jpg", title: "SIH Development Sprint", tag: "SIH" },
+          { src: "../assets/images/gallery/sih/3.jpg", title: "SIH Finished Prototype Showcase", tag: "SIH" }
+        ]
+      },
+      {
+        id: "witchar",
+        title: "WITchar (Technical Fest)",
+        description: "Exciting moments, guest talks, paper presentations, and competition highlights from the annual WITchar fest.",
+        cover: "../assets/images/gallery/witchar/1.jpg",
+        images: [
+          { src: "../assets/images/gallery/witchar/1.jpg", title: "WITchar Fest Event 1", tag: "WITchar" },
+          { src: "../assets/images/gallery/witchar/2.jpg", title: "WITchar Fest Event 2", tag: "WITchar" },
+          { src: "../assets/images/gallery/witchar/3.jpg", title: "WITchar Fest Event 3", tag: "WITchar" },
+          { src: "../assets/images/gallery/witchar/4.jpg", title: "WITchar Fest Event 4", tag: "WITchar" },
+          { src: "../assets/images/gallery/witchar/5.jpg", title: "WITchar Fest Event 5", tag: "WITchar" },
+          { src: "../assets/images/gallery/witchar/6.jpg", title: "WITchar Fest Event 6", tag: "WITchar" },
+          { src: "../assets/images/gallery/witchar/7.jpg", title: "WITchar Fest Event 7", tag: "WITchar" },
+          { src: "../assets/images/gallery/witchar/8.jpg", title: "WITchar Fest Event 8", tag: "WITchar" }
+        ]
+      }
+    ];
+
+    const albumsGrid = document.getElementById('albumsGrid');
+    const albumsGridSection = document.getElementById('albumsGridSection');
+    const photoGridSection = document.getElementById('photoGridSection');
+    const photoGrid = document.getElementById('photoGrid');
+    const albumViewTitle = document.getElementById('albumViewTitle');
+    const backToAlbumsBtn = document.getElementById('backToAlbumsBtn');
+
+    // Lightbox modal variables
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+
+    let currentAlbum = null;
+    let currentImageIndex = 0;
+
+    // Render Albums with dynamic 3D stack generation
+    function renderAlbums() {
+      albumsGrid.innerHTML = albums.map(album => {
+        // Collect stack layers
+        const imgTop = album.images[0]?.src || album.cover;
+        const imgMiddle = album.images[1]?.src || album.cover;
+        const imgBottom = album.images[2]?.src || album.cover;
+
+        return `
+          <div class="album-card-container" data-album-id="${album.id}">
+            <div class="album-stack">
+              <div class="stack-photo photo-under-1">
+                <img src="${imgBottom}" alt="Stack image bottom" loading="lazy">
+              </div>
+              <div class="stack-photo photo-under-2">
+                <img src="${imgMiddle}" alt="Stack image middle" loading="lazy">
+              </div>
+              <div class="stack-photo photo-top">
+                <img src="${imgTop}" alt="Stack image top" loading="lazy">
+              </div>
+            </div>
+            <div class="album-meta">
+              <h3 class="album-meta-title">${album.title}</h3>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Add click events to album container cards
+      document.querySelectorAll('.album-card-container').forEach(card => {
+        card.addEventListener('click', () => {
+          const albumId = card.getAttribute('data-album-id');
+          openAlbum(albumId);
+        });
+      });
+    }
+
+    // Open Album View with dynamic Polaroid/Snapshot Grid
+    function openAlbum(albumId) {
+      currentAlbum = albums.find(a => a.id === albumId);
+      if (!currentAlbum) return;
+
+      albumViewTitle.textContent = currentAlbum.title;
+
+      // Populate snapshot photo grid as Polaroid cards
+      photoGrid.innerHTML = currentAlbum.images.map((img, index) => `
+        <div class="polaroid-card" data-index="${index}">
+          <div class="polaroid-img-wrapper">
+            <img src="${img.src}" alt="${img.title}" loading="lazy">
+          </div>
+          <div class="polaroid-caption">
+            <span class="polaroid-tag">${img.tag}</span>
+            <h4 class="polaroid-title">${img.title}</h4>
+          </div>
+        </div>
+      `).join('');
+
+      // Add click events to Polaroid items to open Lightbox
+      document.querySelectorAll('.polaroid-card').forEach(item => {
+        item.addEventListener('click', () => {
+          const index = parseInt(item.getAttribute('data-index'), 10);
+          openLightbox(index);
+        });
+      });
+
+      // Switch screen view
+      albumsGridSection.style.display = 'none';
+      photoGridSection.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Go back to albums selection
+    backToAlbumsBtn.addEventListener('click', () => {
+      photoGridSection.style.display = 'none';
+      albumsGridSection.style.display = 'block';
+      currentAlbum = null;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Lightbox Logic
+    function openLightbox(index) {
+      if (!currentAlbum) return;
+      currentImageIndex = index;
+      updateLightboxContent();
+      lightboxModal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Disable scroll
+    }
+
+    function closeLightbox() {
+      lightboxModal.classList.remove('active');
+      document.body.style.overflow = ''; // Enable scroll
+    }
+
+    function updateLightboxContent() {
+      const imgData = currentAlbum.images[currentImageIndex];
+      
+      // Apply smooth transition opacity effect
+      lightboxImg.style.opacity = '0';
+      setTimeout(() => {
+        lightboxImg.src = imgData.src;
+        lightboxImg.alt = imgData.title;
+        lightboxCaption.textContent = imgData.title;
+        lightboxCounter.textContent = `${currentImageIndex + 1} of ${currentAlbum.images.length}`;
+        lightboxImg.style.opacity = '1';
+      }, 150);
+    }
+
+    function showNextImage() {
+      if (!currentAlbum || currentAlbum.images.length <= 1) return;
+      currentImageIndex = (currentImageIndex + 1) % currentAlbum.images.length;
+      updateLightboxContent();
+    }
+
+    function showPrevImage() {
+      if (!currentAlbum || currentAlbum.images.length <= 1) return;
+      currentImageIndex = (currentImageIndex - 1 + currentAlbum.images.length) % currentAlbum.images.length;
+      updateLightboxContent();
+    }
+
+    // Lightbox Controls Events
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) closeLightbox();
+    });
+
+    lightboxNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showNextImage();
+    });
+
+    lightboxPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showPrevImage();
+    });
+
+    // Keyboard Arrow Controls for Lightbox
+    document.addEventListener('keydown', (e) => {
+      if (!lightboxModal.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showNextImage();
+      if (e.key === 'ArrowLeft') showPrevImage();
+    });
+
+    // Initialize Page
+    renderAlbums();
+  </script>
+</body>
+</html>

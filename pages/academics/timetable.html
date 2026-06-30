@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timetable | WIT Solapur</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/about-pages.css">
+  <style>
+    .timetable-section-title {
+      text-align: center;
+      color: var(--secondary-royal);
+      font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      margin: 40px 0 20px;
+    }
+  </style>
+</head>
+<body class="about-page">
+
+  <!-- --- Header --- -->
+  <header class="site-header site-header--dept" id="siteHeader">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="../../index.html" aria-label="WIT home">
+        <img src="../../assets/images/brand/logo.png" alt="Walchand Institute of Technology logo">
+      </a>
+
+      <button class="menu-toggle dept-sidebar-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-list dept-nav-links" id="navList">
+        <li><a class="nav-link" href="../../index.html">Home</a></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="about">About</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="academics">Academics</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="admissions">Admissions</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="research">Research</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="campus">Campus Life</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="examination">Examination</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="contact">Contact</button></li>
+      </ul>
+    </nav>
+
+    <div class="mega-menu" id="megaMenu" aria-hidden="true"></div>
+  </header>
+
+  <main class="about-container">
+    <header class="page-header">
+      <h1 id="pageTitle">Final ESE Time Table</h1>
+      <p class="subtitle" id="pageSubtitle">Schedules and details for the examination session.</p>
+    </header>
+
+    <div id="timetableTablesContainer">
+      <!-- Generated Dynamically by JS -->
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-brand" href="../../index.html">
+          <img src="../../assets/images/brand/logo.png" alt="WIT logo">
+          <div class="foot" style="display: flex; flex-direction: column;">
+            <h3>S.A.P.D. Jain Pathshala's</h3>
+            <h3>Walchand Institute of Technology</h3>
+            <h3>An Autonomous Institute</h3>
+          </div>
+        </a>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Walchand Hirachand Marg, Ashok Chowk, Solapur, Maharashtra</p>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@witsolapur.org" target="_blank" rel="noopener"
+          aria-label="Email principal@witsolapur.org">principal@witsolapur.org</a>
+        <p>+91 217 265 2700</p>
+      </div>
+      <div>
+        <h3>Social Media</h3>
+        <div class="social-links">
+          <a href="https://www.facebook.com/witsolapur" aria-label="Facebook">f</a>
+          <a href="https://www.linkedin.com/school/walchand-institute-of-technology-solapur/"
+            aria-label="LinkedIn">in</a>
+          <a href="https://x.com/SolapurWit" aria-label="Twitter">t</a>
+          <a href="https://www.instagram.com/wit_solapur_official/" aria-label="Instagram">ig</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Walchand Institute of Technology, Solapur.</span>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script>
+    const timetableData = {
+      "2025-26(May-2026)": {
+        title: "Final ESE Time Table Examination May-26",
+        sections: [
+          {
+            name: "Graduation",
+            tables: [
+              {
+                name: "Final ESE Time Table of B.Tech Regular Examination May-26",
+                items: [
+                  { label: "First Year B.Tech Regular Sem-II", file: "F.Y.-B.Tech-Sem-II-Regular.pdf" },
+                  { label: "S. Y. B.Tech Regular Sem-IV", file: "SY-B.Tech-Sem-IV-Regular.pdf" },
+                  { label: "T. Y. B.Tech Regular Sem-VI", file: "TY-B.Tech-Sem-VI-Regular.pdf" },
+                  { label: "T. Y. B.Tech (Non-NEP st.) Regular Time Table Sem VI", file: "TY-B.Tech-Sem-VI-Non-NEP.pdf" }
+                ]
+              },
+              {
+                name: "Final ESE Time Table of B.Tech Backlog Examination May-26",
+                items: [
+                  { label: "First Year.B.Tech Backlog Sem-I (A.Y.23-24, 24-25 & 25-26)", file: "FY-Btech-Sem-I-Backlog23-2424-2525-26.pdf" },
+                  { label: "First Year.B.Tech Backlog Sem-II (A.Y. 22-23, 23-24 & 24-25)", file: "FY-Btech-Sem-II-Backlog22-2323-2424-25.pdf" },
+                  { label: "S. Y. B.Tech Backlog Sem III (A.Y. 24-25)", file: "SY-Btech-Sem-III-Backlog24-25.pdf" },
+                  { label: "S. Y. B.Tech Backlog Sem IV (A.Y.22-23, 23-24 & 24-25)", file: "SY-Btech-Sem-IV-Backlog22-2323-2424-25.pdf" },
+                  { label: "T. Y. B.Tech Backlog Sem V (A.Y.2024-25,25-26)", file: "TY-Btech-Sem-V-Backlog24-2525-26.pdf" },
+                  { label: "T. Y. B.Tech Backlog Sem VI (A.Y.2023-24,24-25)", file: "TY-Btech-Sem-VI-Backlog23-2424-25.pdf" },
+                  { label: "Final Year B.Tech Backlog Sem VII (A.Y.24-25, 25-26)", file: "Final-Year-Btech-Sem-VII-Backlog24-2525-26.pdf" }
+                ]
+              }
+            ]
+          },
+          {
+            name: "Post Graduation",
+            tables: [
+              {
+                name: "Final ESE Time Table of M.Tech Regular & Backlog Examination May-26",
+                items: [
+                  { label: "M.Tech Sem-II Regular", file: "FY-Mtech-Sem-II-Regular.pdf" },
+                  { label: "M.Tech Backlog Sem I & II (A.Y.-2024-25, 25-26)", file: "FY-Mtech-Sem-I-II-Backlog24-2525-26.pdf" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "2025-26(Nov-2025)": {
+        title: "Final ESE Time Table Examination November-25",
+        sections: [
+          {
+            name: "Graduation",
+            tables: [
+              {
+                name: "Final ESE Time Table of B.Tech Regular Examination November-25",
+                items: [
+                  { label: "First Year B.Tech Regular Sem-I", file: "Time-Table-F.Y.B.Tech-Regular-2025-26.pdf" },
+                  { label: "S.Y. B.Tech Regular Sem-III", file: "S.Y.-Regular-Time-Table-Sem-III.pdf" },
+                  { label: "T.Y. B.Tech Regular Sem-V", file: "T.Y.-Regular-Time-Table-Sem-V.pdf" },
+                  { label: "T.Y. B.Tech (Non-NEP st.) Regular Sem-V", file: "T.Y.-Non-NEP-st.Regular-Time-Table-Sem-V-CSE-Civil-I.T.pdf" },
+                  { label: "Final Year B.Tech Regular Sem-VII", file: "Final-Year-Regular-Time-Table-Sem-VII.pdf" }
+                ]
+              },
+              {
+                name: "Final ESE Time Table of B.Tech Backlog Examination November-25",
+                items: [
+                  { label: "First Year B.Tech Backlog Sem-I (A.Y. 2023-24)", file: "Time-Table-F.Y.B.Tech-Backlog-2023-24.pdf" },
+                  { label: "First Year B.Tech Backlog Sem-I (A.Y. 2024-25)", file: "Time-Table-F.Y.B.Tech-Backlog-2024-25.pdf" },
+                  { label: "First Year B.Tech Backlog Sem-II (A.Y. 22-23, 23-24 & 24-25)", file: "F.Y.-Sem-II-BacklogA.Y.-22-2323-24-24-25.pdf" },
+                  { label: "S.Y. B.Tech Backlog Sem-III (A.Y. 23-24 & 24-25)", file: "SY-Backlog-Sem-IIIA.Y.-23-24-24-25.pdf" },
+                  { label: "T.Y. B.Tech Backlog Sem-V (A.Y. 2024-25)", file: "TY-Backlog-Sem-VA.Y.2024-25.pdf" },
+                  { label: "T.Y. B.Tech Backlog Sem-VI (A.Y. 2023-24 & 24-25)", file: "TY-Backlog-Sem-VIA.Y.2023-2424-25.pdf" },
+                  { label: "Final Year B.Tech Backlog Sem-VII (A.Y. 24-25)", file: "Final-Year-Backlog-Sem-VIIA.Y.24-25.pdf" }
+                ]
+              }
+            ]
+          },
+          {
+            name: "Post Graduation",
+            tables: [
+              {
+                name: "Final ESE Time Table of M.Tech Regular & Backlog Examination November-25",
+                items: [
+                  { label: "M.Tech Regular Sem-I", file: "F.Y.-M.Tech-Regular-Time-Table-2025-26.pdf" },
+                  { label: "M.Tech Backlog Sem-II (A.Y. 2024-25)", file: "M.Tech-Backlog-Sem-II-A.Y.-2024-25.pdf" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "2024-25(May-2025)": {
+        title: "Final ESE Time Table Examination May-25",
+        sections: [
+          {
+            name: "Graduation",
+            tables: [
+              {
+                name: "Final ESE Time Table of B.Tech Regular Examination May-25",
+                items: [
+                  { label: "First Year B.Tech Regular Sem-II", file: "FY-B.Tech-II-Regular.pdf" },
+                  { label: "S.Y. B.Tech Regular Sem-IV", file: "SY-B.Tech-IV-Regular.pdf" },
+                  { label: "T.Y. B.Tech Regular Sem-VI", file: "TY-B.Tech-VI-Regular.pdf" }
+                ]
+              },
+              {
+                name: "Final ESE Time Table of B.Tech Backlog Examination May-25",
+                items: [
+                  { label: "First Year B.Tech Backlog Sem-I & II", file: "Revised-Time-Table-of-F.Y.-B.TechBacklog.pdf" },
+                  { label: "S.Y. B.Tech Backlog Sem III & IV", file: "SY-B.Tech-Backlog-Sem_III-IV.pdf" },
+                  { label: "T.Y. B.Tech Backlog Sem V & VI", file: "TY-B.Tech-Backlog-Sem_V-VI.pdf" },
+                  { label: "Final Year B.Tech Backlog Sem VII", file: "Final-Year-B.Tech-Backlog_Sem-VII.pdf" }
+                ]
+              }
+            ]
+          },
+          {
+            name: "Post Graduation",
+            tables: [
+              {
+                name: "Final ESE Time Table of M.Tech Regular & Backlog Examination May-25",
+                items: [
+                  { label: "M.Tech Regular Sem II", file: "M.Tech-Sem-II-Time-Table-Regular-24-25.pdf" },
+                  { label: "M.Tech Backlog Sem I", file: "M.Tech-Sem-I-Time-Table-Backlog-24-25.pdf" },
+                  { label: "M.Tech Backlog Sem II", file: "M.Tech-Sem-II-Time-Table-Backlog23-24.pdf" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "2024-25(Nov-2024)": {
+        title: "Final ESE Time Table Examination November-24",
+        sections: [
+          {
+            name: "Graduation",
+            tables: [
+              {
+                name: "Final ESE Time Table of B.Tech Regular Examination November-24",
+                items: [
+                  { label: "First Year B.Tech Regular Sem-I", file: "F.Y.B.Tech-Time-Table-2024-25-Regular.pdf" },
+                  { label: "S.Y. B.Tech Regular Sem-III", file: "S.Y.B.Tech-Regular-Sem-III.pdf" },
+                  { label: "T.Y. B.Tech Regular Sem-V", file: "T.Y.B.Tech-Regular-Sem-V.pdf" },
+                  { label: "Final Year B.Tech Regular Sem-VII", file: "Revised-Final-Year-B.Tech-Time-table.pdf" }
+                ]
+              },
+              {
+                name: "Final ESE Time Table of B.Tech Backlog Examination November-24",
+                items: [
+                  { label: "First Year B.Tech Backlog Sem-I (A.Y. 2023-24)", file: "F.Y.B.Tech-Time-Table-23-24Backlog-1.pdf" },
+                  { label: "First Year B.Tech Backlog Sem-II (A.Y. 2022-23)", file: "F.Y.-B.Tech-Sem-II-Backlog-22-23.pdf" },
+                  { label: "First Year B.Tech Backlog Sem-II (A.Y. 2023-24)", file: "F.Y.-B.Tech-Sem-II-Backlog-23-24.pdf" },
+                  { label: "S.Y. B.Tech Backlog Sem III & IV", file: "S.Y.-B.Tech-Backlog-Sem-III-IV.pdf" },
+                  { label: "T.Y. B.Tech Backlog Sem V & VI", file: "T.Y.-B.Tech-Backlog-Sem-V-VI.pdf" }
+                ]
+              }
+            ]
+          },
+          {
+            name: "Post Graduation",
+            tables: [
+              {
+                name: "Final ESE Time Table of M.Tech Regular & Backlog Examination November-24",
+                items: [
+                  { label: "M.Tech Regular Sem I", file: "F.Y.-M.Tech-Time-Table-Regular.pdf" },
+                  { label: "M.Tech Regular Sem III", file: "M.Tech-time-table-Sem-III-Regular.pdf" },
+                  { label: "M.Tech Backlog Sem II", file: "M.Tech-Sem-II-Backlog-Time-Table-1.pdf" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "2023-24": {
+        title: "Final ESE Time Table Examination 2023-24",
+        sections: [
+          {
+            name: "Graduation & Post Graduation",
+            tables: [
+              {
+                name: "Final ESE Time Table of Undergraduate & Postgraduate Examination 2023-24",
+                items: [
+                  { label: "ESE Time Table UG", file: "ESE-Time_table-UG-1.pdf" },
+                  { label: "ESE Time Table PG", file: "ESE-Time_table-PG.pdf" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const sessionKey = params.get("session") || "2025-26(May-2026)";
+    const session = timetableData[sessionKey] || timetableData["2025-26(May-2026)"];
+
+    // Set page headings
+    document.title = `${session.title} | WIT Solapur`;
+    document.getElementById("pageTitle").textContent = session.title;
+    document.getElementById("pageSubtitle").textContent = `Schedules and details for the ${sessionKey} examination session.`;
+
+    const container = document.getElementById("timetableTablesContainer");
+    container.innerHTML = "";
+
+    session.sections.forEach(section => {
+      // Create Section Title
+      const sectionTitle = document.createElement("h2");
+      sectionTitle.className = "timetable-section-title";
+      sectionTitle.textContent = section.name;
+      container.appendChild(sectionTitle);
+
+      section.tables.forEach(table => {
+        // Create Table Responsive Wrapper
+        const tableWrapper = document.createElement("div");
+        tableWrapper.className = "table-responsive";
+        tableWrapper.style.marginBottom = "32px";
+
+        // Create Table
+        const tableEl = document.createElement("table");
+        tableEl.className = "about-table";
+
+        // Create Thead with Table Name
+        const thead = document.createElement("thead");
+        thead.innerHTML = `
+          <tr>
+            <th colspan="3" style="text-align: center; background-color: #ffffff; color: var(--text-primary); border-bottom: 1px solid var(--border-color); font-weight: 700; padding: 14px; font-size: 1.05rem;">
+              ${table.name}
+            </th>
+          </tr>
+        `;
+        tableEl.appendChild(thead);
+
+        // Create Tbody
+        const tbody = document.createElement("tbody");
+        table.items.forEach((item, index) => {
+          const pdfPath = `../../assets/documents/academics/examination/timetables/${sessionKey}/${item.file}`;
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td style="width: 10%; text-align: center; font-weight: 600;">${index + 1}</td>
+            <td style="width: 65%; font-weight: 500;">${item.label}</td>
+            <td style="width: 25%; text-align: center;">
+              <a href="${pdfPath}" target="_blank" rel="noopener" style="color: var(--secondary-royal); font-weight: 600; text-decoration: none;">View Details</a>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+        tableEl.appendChild(tbody);
+        tableWrapper.appendChild(tableEl);
+        container.appendChild(tableWrapper);
+      });
+    });
+  </script>
+</body>
+</html>

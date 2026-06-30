@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PEO, PO &amp; PSO - Computer Science &amp; Engineering | WIT Solapur</title>
+  <link class="dept-theme-stylesheet" rel="stylesheet" href="../../assets/css/main.css">
+  <link class="dept-theme-stylesheet" rel="stylesheet" href="../../assets/css/branch.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body.outcomes-detail-page {
+      padding-left: 0 !important;
+    }
+    .outcomes-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+    .back-link-container {
+      text-align: left;
+      margin-bottom: 24px;
+    }
+    .back-to-dept-btn {
+      color: var(--dept-primary);
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+    .back-to-dept-btn:hover {
+      transform: translateX(-4px);
+      color: var(--dept-dark);
+    }
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+      position: relative;
+    }
+    .page-header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--dept-dark);
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .page-header .subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto;
+      font-weight: 400;
+    }
+    .outcome-list-item strong {
+      color: var(--dept-primary);
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body class="dept-page outcomes-detail-page" data-department="cse">
+
+  <!-- --- Header --- -->
+  <header class="site-header site-header--dept" id="siteHeader">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="../../index.html" aria-label="WIT home">
+        <img src="../../assets/images/brand/logo.png" alt="Walchand Institute of Technology logo">
+      </a>
+
+      <button class="menu-toggle dept-sidebar-toggle" id="menuToggle" type="button" aria-label="Toggle navigation"
+        aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-list dept-nav-links" id="navList">
+        <li><a class="nav-link" href="../../index.html">Home</a></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="about">About</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="academics">Academics</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="admissions">Admissions</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="research">Research</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="campus">Campus Life</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="examination">Examination</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="contact">Contact</button></li>
+      </ul>
+    </nav>
+
+    <div class="mega-menu" id="megaMenu" aria-hidden="true"></div>
+  </header>
+
+  <!-- --- Layout --- -->
+  <main class="outcomes-container">
+    <header class="page-header">
+      <div class="back-link-container">
+        <a href="cse.html" class="back-to-dept-btn">
+          <i class="fa-solid fa-arrow-left"></i> Back to CSE Department
+        </a>
+      </div>
+      <h1>PEO, PO &amp; PSO - CSE</h1>
+      <p class="subtitle">Program Educational Objectives, Program Outcomes and Program Specific Outcomes of the Computer Science &amp; Engineering Department.</p>
+    </header>
+
+    <div class="outcomes-layout">
+      <!-- Left sidebar menu -->
+      <div class="outcomes-menu">
+        <button class="outcome-tab active" data-target="panel-peo" data-tab-id="peo" type="button" aria-selected="true">
+          PEO
+          <span class="tab-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </button>
+        <button class="outcome-tab" data-target="panel-po" data-tab-id="po" type="button" aria-selected="false">
+          PO
+          <span class="tab-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </button>
+        <button class="outcome-tab" data-target="panel-pso" data-tab-id="pso" type="button" aria-selected="false">
+          PSO
+          <span class="tab-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </button>
+      </div>
+
+      <!-- Right detail panels -->
+      <div class="outcomes-details">
+        <!-- PEO Panel -->
+        <div class="outcome-panel active" id="panel-peo">
+          <h3>Program Educational Objectives (PEOs)</h3>
+          <p style="margin-bottom: 20px; color: var(--text-muted);">The Program Educational Objectives (PEOs) represent the professional goals and achievements expected from graduates of the Computer Science &amp; Engineering programme within a few years of graduation:</p>
+          <div class="infra-table-wrap" style="margin-top: 15px;">
+            <table class="infra-table" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th style="width: 15%;">PEO No.</th>
+                  <th>Program Educational Objectives Statements</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>PEO1</strong></td>
+                  <td>Exhibit strong fundamental knowledge and technical skills in the field of Computer Science &amp; Engineering to pursue successful professional career, higher studies and research.</td>
+                </tr>
+                <tr>
+                  <td><strong>PEO2</strong></td>
+                  <td>Exhibit capabilities to understand and resolve various societal issues through their problem solving skills.</td>
+                </tr>
+                <tr>
+                  <td><strong>PEO3</strong></td>
+                  <td>Be sensitive to ethical, societal and environmental issues as a software engineering professional and be committed to life-long learning.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PO Panel -->
+        <div class="outcome-panel" id="panel-po">
+          <h3>Program Outcomes (POs)</h3>
+          <p style="margin-bottom: 20px; color: var(--text-muted);">Engineering Graduates will be able to demonstrate the following outcomes:</p>
+          <ul class="outcome-list" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO1</span>
+              <div><strong>Engineering knowledge:</strong> Apply the knowledge of mathematics, science, engineering fundamentals, and an engineering specialization to the solution of complex engineering problems.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO2</span>
+              <div><strong>Problem analysis:</strong> Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of mathematics, natural sciences, and engineering sciences.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO3</span>
+              <div><strong>Design/development of solutions:</strong> Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for the public health and safety, and the cultural, societal, and environmental considerations.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO4</span>
+              <div><strong>Conduct investigations of complex problems:</strong> Use research-based knowledge and research methods including design of experiments, analysis and interpretation of data, and synthesis of the information to provide valid conclusions.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO5</span>
+              <div><strong>Modern tool usage:</strong> Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools including prediction and modeling to complex engineering activities with an understanding of the limitations.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO6</span>
+              <div><strong>The engineer and society:</strong> Apply reasoning informed by the contextual knowledge to assess societal, health, safety, legal and cultural issues and the consequent responsibilities relevant to the professional engineering practice.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO7</span>
+              <div><strong>Environment and sustainability:</strong> Understand the impact of the professional engineering solutions in societal and environmental contexts, and demonstrate the knowledge of, and need for sustainable development.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO8</span>
+              <div><strong>Ethics:</strong> Apply ethical principles and commit to professional ethics and responsibilities and norms of the engineering practice.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO9</span>
+              <div><strong>Individual and team work:</strong> Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO10</span>
+              <div><strong>Communication:</strong> Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO11</span>
+              <div><strong>Project management and finance:</strong> Demonstrate knowledge and understanding of the engineering and management principles and apply these to one's own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 50px; text-align: center;">PO12</span>
+              <div><strong>Life-long learning:</strong> Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.</div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- PSO Panel -->
+        <div class="outcome-panel" id="panel-pso">
+          <h3>Program Specific Outcomes (PSOs)</h3>
+          <p style="margin-bottom: 20px; color: var(--text-muted);">At the time of graduation, graduates of Computer Science &amp; Engineering will be able to demonstrate the following program-specific achievements:</p>
+          <ul class="outcome-list" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 60px; text-align: center;">PSO1</span>
+              <div>Apply the principles of computational mathematics, computer systems and programming paradigms to solve computational problems.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 60px; text-align: center;">PSO2</span>
+              <div>Design and develop application software with functionalities applicable for desktop, web and mobile applications with due consideration of system software constraints.</div>
+            </li>
+            <li class="outcome-list-item" style="display: flex; gap: 12px; align-items: start;">
+              <span style="background: var(--dept-light); color: var(--dept-primary); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; min-width: 60px; text-align: center;">PSO3</span>
+              <div>Apply software engineering methods, cutting edge technologies, and ICT using appropriate tools and FOSS alternatives for designing, developing &amp; testing application software.</div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- --- Footer --- -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-brand" href="../../index.html">
+          <img src="../../assets/images/brand/logo.png" alt="WIT logo">
+          <div class="foot" style="display: flex; flex-direction: column;">
+            <h3>S.A.P.D. Jain Pathshala's</h3>
+            <h3>Walchand Institute of Technology</h3>
+            <h3>An Autonomous Institute</h3>
+          </div>
+        </a>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Walchand Hirachand Marg, Ashok Chowk, Solapur, Maharashtra</p>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@witsolapur.org" target="_blank" rel="noopener"
+          aria-label="Email principal@witsolapur.org">principal@witsolapur.org</a>
+        <p>+91 217 265 2700</p>
+      </div>
+      <div>
+        <h3>Social Media</h3>
+        <div class="social-links">
+          <a href="https://www.facebook.com/witsolapur" aria-label="Facebook">f</a>
+          <a href="https://www.linkedin.com/school/walchand-institute-of-technology-solapur/"
+            aria-label="LinkedIn">in</a>
+          <a href="https://x.com/SolapurWit" aria-label="Twitter">t</a>
+          <a href="https://www.instagram.com/wit_solapur_official/" aria-label="Instagram">ig</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Walchand Institute of Technology, Solapur.</span>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/dept-nav.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check location hash to pre-select correct tab
+      const hash = window.location.hash;
+      if (hash) {
+        const tabId = hash.substring(1);
+        const tab = document.querySelector(`.outcome-tab[data-tab-id="${tabId}"]`);
+        if (tab) {
+          tab.click();
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

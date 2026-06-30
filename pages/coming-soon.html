@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Department Coming Soon | WIT Solapur</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/branch.css">
+  <style>
+    .coming-soon-inner{
+      max-width:900px;margin:56px auto;padding:48px 24px;text-align:center
+    }
+    .coming-soon-badge{display:inline-block;padding:10px 18px;border-radius:999px;background:#07203a;color:#bfe7ff;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+    .coming-soon-title{font-size:clamp(28px,4vw,42px);margin:18px 0 6px;color:var(--navy-950)}
+    .coming-soon-sub{color:#4b5966;margin-bottom:18px}
+    .back-home{display:inline-block;margin-top:18px;padding:10px 16px;border-radius:10px;background:#08294b;color:#fff;text-decoration:none}
+  </style>
+</head>
+<body class="dept-coming-soon">
+  <header class="site-header site-header--dept" id="siteHeader">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="../index.html" aria-label="WIT home">
+        <img src="../assets/images/brand/logo.png" alt="Walchand Institute of Technology logo">
+      </a>
+      <button class="menu-toggle dept-sidebar-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-list dept-nav-links" id="navList">
+        <li><a class="nav-link" href="../index.html">Home</a></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="about">About</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="academics">Academics</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="admissions">Admissions</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="research">Research</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="campus">Campus Life</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="examination">Examination</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="contact">Contact</button></li>
+      </ul>
+    </nav>
+    <div class="mega-menu" id="megaMenu" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    <section class="coming-soon-inner">
+      <span id="deptBadge" class="coming-soon-badge">Department</span>
+      <h1 id="deptTitle" class="coming-soon-title">Coming Soon</h1>
+      <p id="deptSub" class="coming-soon-sub">This department page is not yet ready. We're working on content and will publish it soon.</p>
+      <a class="back-home" href="../index.html">Back to Home</a>
+    </section>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const dept = params.get('dept') || '';
+    const mapping = {
+      'IT':'Information Technology',
+      'ME':'Mechanical and Automation Engineering',
+      'CE':'Civil Engineering',
+      'ENTC':'Electronics & Telecommunication',
+      'AIML':'Artificial Intelligence & Machine Learning',
+      'ECS':'Electronics & Computer Engineering',
+      'ALUMNI':'Alumni Portal',
+      'WITCHAR':'WITchar 2k27'
+    };
+    const name = mapping[dept.toUpperCase()] || (dept ? dept : 'Page');
+    document.getElementById('deptBadge').textContent = name;
+    document.getElementById('deptTitle').textContent = name + ' — Coming Soon';
+    
+    let subText = 'The ' + name + ' page is under construction. Check back soon for details.';
+    if (dept.toUpperCase() === 'ALUMNI') {
+      subText = 'The Alumni Portal is under construction. Check back soon for alumni registration, networking features, and alumni meet updates.';
+    } else if (dept.toUpperCase() === 'WITCHAR') {
+      subText = 'The WITchar 2k27 page is under construction. Check back soon for event registration, schedules, guidelines, and competition details.';
+    } else if (mapping[dept.toUpperCase()] && !['ALUMNI', 'WITCHAR'].includes(dept.toUpperCase())) {
+      subText = 'The ' + name + ' department page is under construction. Check back soon for department details, faculty profiles, syllabus, and more.';
+    }
+    document.getElementById('deptSub').textContent = subText;
+  </script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

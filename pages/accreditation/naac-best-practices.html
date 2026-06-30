@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Best Practices | WIT Solapur</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/about-pages.css">
+  <style>
+    .practices-section-title {
+      color: var(--secondary-deep);
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
+      font-weight: 700;
+      margin-top: 30px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--bg-alt);
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+<body class="about-page">
+
+  <!-- --- Header --- -->
+  <header class="site-header site-header--dept" id="siteHeader">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="../../index.html" aria-label="WIT home">
+        <img src="../../assets/images/brand/logo.png" alt="Walchand Institute of Technology logo">
+      </a>
+
+      <button class="menu-toggle dept-sidebar-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-list dept-nav-links" id="navList">
+        <li><a class="nav-link" href="../../index.html">Home</a></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="about">About</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="academics">Academics</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="admissions">Admissions</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="research">Research</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="campus">Campus Life</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="examination">Examination</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="contact">Contact</button></li>
+      </ul>
+    </nav>
+
+    <div class="mega-menu" id="megaMenu" aria-hidden="true"></div>
+  </header>
+
+  <main class="about-container">
+    <header class="page-header">
+      <h1 id="pageTitle">Best Practices</h1>
+      <p class="subtitle" id="pageSubtitle">Institutional Best Practices submitted under NAAC Quality Assessment.</p>
+    </header>
+
+    <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <a href="naac-related-documents.html" style="color: var(--secondary-royal); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+        &larr; Back to Related Documents
+      </a>
+      <div id="yearButtons" style="display: flex; gap: 8px;">
+        <a href="?year=2023-24" id="btn-2023-24" class="tab-button" style="text-decoration: none; padding: 6px 16px; font-size: 0.9rem; border-radius: 20px; border: 1px solid var(--border-color); color: var(--text-secondary);">2023-24</a>
+        <a href="?year=2022-23" id="btn-2022-23" class="tab-button" style="text-decoration: none; padding: 6px 16px; font-size: 0.9rem; border-radius: 20px; border: 1px solid var(--border-color); color: var(--text-secondary);">2022-23</a>
+        <a href="?year=2021-22" id="btn-2021-22" class="tab-button" style="text-decoration: none; padding: 6px 16px; font-size: 0.9rem; border-radius: 20px; border: 1px solid var(--border-color); color: var(--text-secondary);">2021-22</a>
+      </div>
+    </div>
+
+    <div id="practicesContainer">
+      <!-- Generated Dynamically by JS -->
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-brand" href="../../index.html">
+          <img src="../../assets/images/brand/logo.png" alt="WIT logo">
+          <div class="foot" style="display: flex; flex-direction: column;">
+            <h3>S.A.P.D. Jain Pathshala's</h3>
+            <h3>Walchand Institute of Technology</h3>
+            <h3>An Autonomous Institute</h3>
+          </div>
+        </a>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Walchand Hirachand Marg, Ashok Chowk, Solapur, Maharashtra</p>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@witsolapur.org" target="_blank" rel="noopener"
+          aria-label="Email principal@witsolapur.org">principal@witsolapur.org</a>
+        <p>+91 217 265 2700</p>
+      </div>
+      <div>
+        <h3>Social Media</h3>
+        <div class="social-links">
+          <a href="https://www.facebook.com/witsolapur" aria-label="Facebook">f</a>
+          <a href="https://www.linkedin.com/school/walchand-institute-of-technology-solapur/"
+            aria-label="LinkedIn">in</a>
+          <a href="https://x.com/SolapurWit" aria-label="Twitter">t</a>
+          <a href="https://www.instagram.com/wit_solapur_official/" aria-label="Instagram">ig</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Walchand Institute of Technology, Solapur.</span>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script>
+    const practicesData = {
+      "2023-24": {
+        yearLabel: "2023-2024",
+        sections: [
+          {
+            name: "Best Practices 2023-24",
+            items: [
+              { label: "Best Practice I", file: "2023-24/Best Practices/AQAR-23-24-Best-Practice-1.pdf" },
+              { label: "Best Practice II", file: "2023-24/Best Practices/AQAR-23-24-Best-Practice-2.pdf" }
+            ]
+          }
+        ]
+      },
+      "2022-23": {
+        yearLabel: "2022-2023",
+        sections: [
+          {
+            name: "Best Practices 2022-23",
+            items: [
+              { label: "Best Practice I", file: "2022-23/Best Practices/AQAR-22-23-Final-Best-Practice-1.pdf" },
+              { label: "Best Practice II", file: "2022-23/Best Practices/AQAR-22-23-Final-Best-Practice-2.pdf" }
+            ]
+          }
+        ]
+      },
+      "2021-22": {
+        yearLabel: "2021-2022 & 2020-2021",
+        sections: [
+          {
+            name: "Best Practices 2021-22",
+            items: [
+              { label: "Best Practice I (2021-22)", file: "2021-22/Best Practices/2021-22/AQAR-21-22-Best-Practice-1-.pdf" },
+              { label: "Best Practice II (2021-22)", file: "2021-22/Best Practices/2021-22/AQAR-21-22-Best-Practice-2.pdf" }
+            ]
+          },
+          {
+            name: "Best Practices 2020-21",
+            items: [
+              { label: "Best Practice I (2020-21)", file: "2021-22/Best Practices/2020-21/AQAR-20-21-Best-Practice-1-Final.pdf" },
+              { label: "Best Practice II (2020-21)", file: "2021-22/Best Practices/2020-21/AQAR-20-21-Best-Practice-2.pdf" }
+            ]
+          }
+        ]
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const yearKey = params.get("year") || "2023-24";
+    const data = practicesData[yearKey] || practicesData["2023-24"];
+
+    // Set page headings
+    document.title = `Best Practices ${data.yearLabel} | WIT Solapur`;
+    document.getElementById("pageTitle").textContent = `Best Practices (${data.yearLabel})`;
+    document.getElementById("pageSubtitle").textContent = `Institutional Best Practices submitted for academic session ${data.yearLabel}.`;
+
+    // Highlight active year button
+    const activeBtn = document.getElementById(`btn-${yearKey}`);
+    if (activeBtn) {
+      activeBtn.style.backgroundColor = "var(--secondary-royal)";
+      activeBtn.style.color = "var(--white)";
+      activeBtn.style.borderColor = "var(--secondary-royal)";
+    }
+
+    const container = document.getElementById("practicesContainer");
+    container.innerHTML = "";
+
+    data.sections.forEach(section => {
+      // Create section header
+      const headerEl = document.createElement("h2");
+      headerEl.className = "practices-section-title";
+      headerEl.textContent = section.name;
+      container.appendChild(headerEl);
+
+      // Create Table Wrapper
+      const tableWrapper = document.createElement("div");
+      tableWrapper.className = "table-responsive";
+      tableWrapper.style.marginBottom = "32px";
+
+      // Create Table
+      const tableEl = document.createElement("table");
+      tableEl.className = "about-table";
+
+      // Create Thead
+      const thead = document.createElement("thead");
+      thead.innerHTML = `
+        <tr>
+          <th style="width: 10%; text-align: center;">Sr No</th>
+          <th style="width: 65%;">Practice Description</th>
+          <th style="width: 25%; text-align: center;">Link</th>
+        </tr>
+      `;
+      tableEl.appendChild(thead);
+
+      // Create Tbody
+      const tbody = document.createElement("tbody");
+      section.items.forEach((item, index) => {
+        const pdfPath = `../../assets/documents/academics/examination/accrediations/NAAC/NAAC/NAAC Related Documents/${item.file}`;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td style="text-align: center; font-weight: 600;">${index + 1}</td>
+          <td style="font-weight: 500;">${item.label}</td>
+          <td style="text-align: center;">
+            <a href="${pdfPath}" target="_blank" rel="noopener" style="color: var(--secondary-royal); font-weight: 600; text-decoration: none;">View Document (PDF)</a>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      tableEl.appendChild(tbody);
+      tableWrapper.appendChild(tableEl);
+      container.appendChild(tableWrapper);
+    });
+  </script>
+</body>
+</html>

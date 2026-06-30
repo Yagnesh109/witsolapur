@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshops & Seminars Conducted | WIT Solapur</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/about-pages.css">
+  <style>
+    .workshops-section-title {
+      text-align: center;
+      color: var(--secondary-royal);
+      font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      margin: 40px 0 20px;
+    }
+  </style>
+</head>
+<body class="about-page">
+
+  <!-- --- Header --- -->
+  <header class="site-header site-header--dept" id="siteHeader">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="../../index.html" aria-label="WIT home">
+        <img src="../../assets/images/brand/logo.png" alt="Walchand Institute of Technology logo">
+      </a>
+
+      <button class="menu-toggle dept-sidebar-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-list dept-nav-links" id="navList">
+        <li><a class="nav-link" href="../../index.html">Home</a></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="about">About</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="academics">Academics</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="admissions">Admissions</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="research">Research</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="campus">Campus Life</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="examination">Examination</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="contact">Contact</button></li>
+      </ul>
+    </nav>
+
+    <div class="mega-menu" id="megaMenu" aria-hidden="true"></div>
+  </header>
+
+  <main class="about-container">
+    <header class="page-header">
+      <h1 id="pageTitle">Workshops & Seminars Conducted</h1>
+      <p class="subtitle" id="pageSubtitle">Yearly details of seminars and workshops conducted under NAAC Quality Assurance.</p>
+    </header>
+
+    <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <a href="naac-related-documents.html" style="color: var(--secondary-royal); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+        &larr; Back to Related Documents
+      </a>
+      <div id="yearButtons" style="display: flex; gap: 8px;">
+        <a href="?year=2023-24" id="btn-2023-24" class="tab-button" style="text-decoration: none; padding: 6px 16px; font-size: 0.9rem; border-radius: 20px; border: 1px solid var(--border-color); color: var(--text-secondary);">2023-24</a>
+        <a href="?year=2022-23" id="btn-2022-23" class="tab-button" style="text-decoration: none; padding: 6px 16px; font-size: 0.9rem; border-radius: 20px; border: 1px solid var(--border-color); color: var(--text-secondary);">2022-23</a>
+        <a href="?year=2021-22" id="btn-2021-22" class="tab-button" style="text-decoration: none; padding: 6px 16px; font-size: 0.9rem; border-radius: 20px; border: 1px solid var(--border-color); color: var(--text-secondary);">2021-22</a>
+      </div>
+    </div>
+
+    <div id="workshopsContainer">
+      <!-- Generated Dynamically by JS -->
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-brand" href="../../index.html">
+          <img src="../../assets/images/brand/logo.png" alt="WIT logo">
+          <div class="foot" style="display: flex; flex-direction: column;">
+            <h3>S.A.P.D. Jain Pathshala's</h3>
+            <h3>Walchand Institute of Technology</h3>
+            <h3>An Autonomous Institute</h3>
+          </div>
+        </a>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Walchand Hirachand Marg, Ashok Chowk, Solapur, Maharashtra</p>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@witsolapur.org" target="_blank" rel="noopener"
+          aria-label="Email principal@witsolapur.org">principal@witsolapur.org</a>
+        <p>+91 217 265 2700</p>
+      </div>
+      <div>
+        <h3>Social Media</h3>
+        <div class="social-links">
+          <a href="https://www.facebook.com/witsolapur" aria-label="Facebook">f</a>
+          <a href="https://www.linkedin.com/school/walchand-institute-of-technology-solapur/"
+            aria-label="LinkedIn">in</a>
+          <a href="https://x.com/SolapurWit" aria-label="Twitter">t</a>
+          <a href="https://www.instagram.com/wit_solapur_official/" aria-label="Instagram">ig</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Walchand Institute of Technology, Solapur.</span>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script>
+    const workshopsData = {
+      "2023-24": {
+        yearLabel: "2023-2024",
+        folder: "2023-24/workshops_seminars",
+        items: [
+          { file: "1.-SIH-2023-report.pdf", label: "Smart India Hackathon (SIH) 2023 Report" },
+          { file: "2.-MSINS_27.9.23-1.pdf", label: "Maharashtra State Innovation Society (MSINS) Workshop (27 Sept 2023)" },
+          { file: "3.-Financial-Planning-for-Entrepreneurs.pdf", label: "Financial Planning for Entrepreneurs" },
+          { file: "4.-Spark-Tank-Report.pdf", label: "Spark Tank Report" },
+          { file: "5.-Startup-day-cel.pdf", label: "Startup Day Celebration" },
+          { file: "6.-Workshop.pdf", label: "Entrepreneurship Development Workshop" },
+          { file: "7.-fit.pdf", label: "FIT Seminar" },
+          { file: "8.-validation_startup-idea_sbt.pdf", label: "Validation of Startup Idea and Business Model" },
+          { file: "9.-Motivational-speech.pdf", label: "Motivational Speech for Aspiring Entrepreneurs" },
+          { file: "10.-TRL_SK.pdf", label: "Technology Readiness Level (TRL) Seminar" },
+          { file: "11.-failure_case-study_sbt.pdf", label: "Learning from Failures - Startup Case Studies" },
+          { file: "12.-Demo-day.pdf", label: "Prototype Exhibition and Demo Day" },
+          { file: "13.-ANS-Problem-solving.pdf", label: "Problem Solving and Ideation Session" },
+          { file: "14.-22.3.24_b-idea_ok.pdf", label: "Business Idea Validation Workshop (22 Mar 2024)" },
+          { file: "15.-Ideathon.pdf", label: "Ideathon 2024" },
+          { file: "16.-Social-Entre.pdf", label: "Social Entrepreneurship & Social Innovation" },
+          { file: "17.-inno.-proto._validation.pdf", label: "Innovation & Prototype Validation Workshop" },
+          { file: "18.-Failure-of-startups.pdf", label: "Key Reasons for Startup Failures & Risk Mitigation" },
+          { file: "19.-Prototyping.pdf", label: "Design Thinking & Prototyping Workshop" },
+          { file: "20.-Interaction-with-entre.pdf", label: "Interaction Session with Successful Entrepreneurs" },
+          { file: "21.-Uunderstanding-entre.pdf", label: "Understanding Entrepreneurship Journey" },
+          { file: "22.-Angel-Investment-VC-Funding-Opportunity-for-Early-Stage-Entrepreneurs.pdf", label: "Angel Investment & VC Funding Opportunities" },
+          { file: "23.-22.8.24_bmc_ok.pdf", label: "Business Model Canvas (BMC) Workshop (22 Aug 2024)" },
+          { file: "24.-Role-of-govt.pdf", label: "Role of Government & Funding Schemes for Startups" },
+          { file: "25.-Products-vs-service.pdf", label: "Product-Market Fit & Products vs Services Business" },
+          { file: "26.-27.8.24_Legal_ok.pdf", label: "Legal & Ethical Aspects of Startups (27 Aug 2024)" },
+          { file: "27.-SIH_2024_Internal.pdf", label: "Internal Smart India Hackathon (SIH) 2024" }
+        ]
+      },
+      "2022-23": {
+        yearLabel: "2022-2023",
+        folder: "2022-23/Workshops_Seminars",
+        items: [
+          { file: "1.pdf", label: "Introduction to Intellectual Property Rights from Indian Perspective" },
+          { file: "2.pdf", label: "Introduction to Intellectual Property Rights" },
+          { file: "3.pdf", label: "IEEE- Artificial Intelligence, Business Intelligence and power of BI" },
+          { file: "4.pdf", label: "Idea generation" },
+          { file: "5.pdf", label: "My Story – Motivational Session by Successful Entrepreneur/ Start-up founder – Mr. Kalpak Shahane" },
+          { file: "6.pdf", label: "National Level Innovative Business Idea Competition –SCAMPER Challenge" },
+          { file: "7.pdf", label: "Financial Aspects of Business" },
+          { file: "8.pdf", label: "Achieving Problem-Solution Fit and Product-Market Fit" },
+          { file: "9.pdf", label: "Process of Innovation Development, Technology Readiness Level (TRL); Commercialization of Lab Technologies & Tech-Transfer" },
+          { file: "10.pdf", label: "Trying your Ways –Tips & Tricks for Startup Growth" },
+          { file: "11.pdf", label: "National Level Competition on Innovative Solutions to Given Problems- Innoverse" },
+          { file: "12.pdf", label: "Inter-Institutional Business Plan Competition and Reward Best Innovations – Manage through YUKTI-NIR" },
+          { file: "13.pdf", label: "Mantras to become Successful Entrepreneur" },
+          { file: "14.pdf", label: "Project Management & Strategic planning for Entrepreneurs" },
+          { file: "15.pdf", label: "Emerging Trends & Eco-system for Business Development" },
+          { file: "16.pdf", label: "How to plan for Start-up and legal & Ethical Steps" },
+          { file: "17.pdf", label: "Report of Celebration Activity – World Entrepreneur’s Day" },
+          { file: "18.pdf", label: "Qualities required for Entrepreneurship" },
+          { file: "19.pdf", label: "Accelerators/Incubation -Opportunities for Students & Faculties – Early-Stage Entrepreneurs" },
+          { file: "20.pdf", label: "Innovation/Prototype Validation – Converting Innovation into a Start-up" },
+          { file: "21.pdf", label: "Angel Investment/VC Funding Opportunity for Early-Stage Entrepreneurs" },
+          { file: "22.pdf", label: "Startup" },
+          { file: "23.pdf", label: "Business Model Canvas (BMC)" },
+          { file: "24.pdf", label: "Case studies in patent filing and prosecution" }
+        ]
+      },
+      "2021-22": {
+        yearLabel: "2021-2022",
+        folder: "2021-22/workshop_seminars",
+        items: [
+          { file: "1.pdf", label: "Entrepreneurship & IPR" },
+          { file: "2.pdf", label: "Innovation & Creativity" },
+          { file: "3.pdf", label: "Innovation Pace: Startup to Enterprise" },
+          { file: "4.pdf", label: "How to convert Business Idea to Startup?" },
+          { file: "5.pdf", label: "How to plan for Start-up and legal & Ethical Steps" },
+          { file: "6.pdf", label: "Innovation & Entrepreneurship" },
+          { file: "7.pdf", label: "How to start a Start-up?" },
+          { file: "8.pdf", label: "Being Agile is Being Innovative" },
+          { file: "9.pdf", label: "Intellectual Property Rights for Entrepreneurs" },
+          { file: "10.pdf", label: "Accelerator/Incubation opportunities for students & faculties –Early stage Entrepreneurs" },
+          { file: "11.pdf", label: "Angel Investment /VC Funding Opportunity for Early stage entrepreneurs" },
+          { file: "12.pdf", label: "Innovation/Prototype Validation – Converting Innovation into a Startup" },
+          { file: "13.pdf", label: "Exciting journey from Problem to Product by incorporating Project Based Learning (PBL)" },
+          { file: "14.pdf", label: "Idea, Proof of Concept & Prototype" },
+          { file: "15.pdf", label: "Problem Solving & Ideation" },
+          { file: "16.pdf", label: "Orientation session on “National Innovation & Startup Policy”" },
+          { file: "17.pdf", label: "Social Entrepreneurship" },
+          { file: "18.pdf", label: "Process of Innovation Development & Technology Readiness Level (TRL) & Commercialization of Lab Technologies & Tech-Transfer" },
+          { file: "19.pdf", label: "Achieving Problem- Solution Fit & Product-Market Fit" },
+          { file: "20.pdf", label: "Introduction to Intellectual Property Rights" },
+          { file: "21.pdf", label: "Overview on Intellectual Property Rights" },
+          { file: "22.pdf", label: "Success story of Innovator : The World of Three Zeros My Innovation Story: Shunya Se Sikhar Tak" },
+          { file: "23.pdf", label: "Business Intelligence – An innovative way of business" },
+          { file: "24.pdf", label: "Design Thinking, Critical Thinking and Innovation Design" },
+          { file: "25.pdf", label: "Intellectual Property Rights & Technology Transfer" },
+          { file: "26.pdf", label: "Intellectual Property : Know Your Rights" },
+          { file: "27.pdf", label: "My Success Story’ by successful Entrepreneur" },
+          { file: "28.pdf", label: "Idea Generation" },
+          { file: "29.pdf", label: "Ad Making competition" },
+          { file: "30.pdf", label: "Ideathon competition" },
+          { file: "31.pdf", label: "Demo Day (Presentation of Prototypes based on Innovative Ideas)" },
+          { file: "32.pdf", label: "Report of Competition on Recent Trends in Vehicles & Business Opportunities" },
+          { file: "33.pdf", label: "Smart India Internal Hackathon-2022" }
+        ]
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const yearKey = params.get("year") || "2023-24";
+    const data = workshopsData[yearKey] || workshopsData["2023-24"];
+
+    // Set page headings
+    document.title = `Workshops & Seminars ${data.yearLabel} | WIT Solapur`;
+    document.getElementById("pageTitle").textContent = `Workshops & Seminars (${data.yearLabel})`;
+    document.getElementById("pageSubtitle").textContent = `Details of workshops and seminars conducted in academic year ${data.yearLabel}.`;
+
+    // Highlight active year button
+    const activeBtn = document.getElementById(`btn-${yearKey}`);
+    if (activeBtn) {
+      activeBtn.style.backgroundColor = "var(--secondary-royal)";
+      activeBtn.style.color = "var(--white)";
+      activeBtn.style.borderColor = "var(--secondary-royal)";
+    }
+
+    const container = document.getElementById("workshopsContainer");
+    container.innerHTML = "";
+
+    // Create Table Responsive Wrapper
+    const tableWrapper = document.createElement("div");
+    tableWrapper.className = "table-responsive";
+
+    // Create Table
+    const tableEl = document.createElement("table");
+    tableEl.className = "about-table";
+
+    // Create Thead
+    const thead = document.createElement("thead");
+    thead.innerHTML = `
+      <tr>
+        <th style="width: 10%; text-align: center;">Sr No</th>
+        <th style="width: 65%;">Workshop / Seminar Title</th>
+        <th style="width: 25%; text-align: center;">Report Link</th>
+      </tr>
+    `;
+    tableEl.appendChild(thead);
+
+    // Create Tbody
+    const tbody = document.createElement("tbody");
+    data.items.forEach((item, index) => {
+      const pdfPath = `../../assets/documents/academics/examination/accrediations/NAAC/NAAC/NAAC Related Documents/${data.folder}/${item.file}`;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td style="text-align: center; font-weight: 600;">${index + 1}</td>
+        <td style="font-weight: 500;">${item.label}</td>
+        <td style="text-align: center;">
+          <a href="${pdfPath}" target="_blank" rel="noopener" style="color: var(--secondary-royal); font-weight: 600; text-decoration: none;">View Report (PDF)</a>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+    tableEl.appendChild(tbody);
+    tableWrapper.appendChild(tableEl);
+    container.appendChild(tableWrapper);
+  </script>
+</body>
+</html>
