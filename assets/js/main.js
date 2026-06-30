@@ -69,6 +69,7 @@ if (navList) {
       importantLinksLi.innerHTML = `<button class="nav-link menu-trigger" type="button" data-menu="important_links">Important Links</button>`;
       contactLi.before(importantLinksLi);
     }
+    contactLi.innerHTML = `<a class="nav-link" href="${rootPrefix}pages/contact.html">Contact</a>`;
   }
 }
 
@@ -246,7 +247,7 @@ const menus = {
   },
   important_links: {
     label: "Important Links",
-    headline: "Statutory committees, strategic planning, UGC compliance, and statement of accounts.",
+    headline: "Statutory committees, compliance disclosures, online grievance, tenders, and scholarship schemes.",
     groups: [
       ["Statutory Committees", [
         ["Anti-Ragging Committee", "assets/documents/importan_links/ANTI-RAGGING-COMMITTEE.pdf"],
@@ -269,9 +270,9 @@ const menus = {
   },
   contact: {
     label: "Contact",
-    headline: "Contact, grievance, tenders, important links, and scholarship schemes.",
+    headline: "Contact us and locate our campus.",
     groups: [
-      ["Connect", [["Contact Us", "pages/contact.html"], ["Online Grievance", "https://docs.google.com/forms/d/e/1FAIpQLSea-zVWwqoxxh4sZrd67AK0Umcwk68JSsDWXnsUkXjeUVPPEQ/viewform"], ["Tenders", "pages/tenders.html"], ["AICTE Scholarship Schemes", "https://www.aicte.gov.in/schemes/students-development-schemes"]]]
+      ["Connect", [["Contact Us", "pages/contact.html"]]]
     ]
   }
 };
