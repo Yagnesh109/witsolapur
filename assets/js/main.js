@@ -609,9 +609,26 @@ document.addEventListener("mouseover", (event) => {
 
   const link = event.target.closest("a");
   if (link) {
-    const href = link.getAttribute("href");
-    if (href && href.startsWith("#academics-")) {
-      switchAcademicsSubtab(href, link);
+    const megaGroup = link.closest(".mega-group");
+    const megaGroups = link.closest(".mega-groups");
+    const isAcademicsFirstGroup = megaGroups && 
+                                  megaGroup === megaGroups.children[0] && 
+                                  megaGroup.querySelector("h4")?.textContent === "Academic Links";
+
+    if (isAcademicsFirstGroup) {
+      const href = link.getAttribute("href");
+      if (href && href.startsWith("#academics-")) {
+        switchAcademicsSubtab(href, link);
+      } else {
+        // Clear right-side content when hovering over a link with no sub-options
+        megaGroup.querySelectorAll("a").forEach(a => a.classList.remove("subtab-active"));
+        link.classList.add("subtab-active");
+        
+        const rightGroup = megaGroups.children[1];
+        if (rightGroup) {
+          rightGroup.innerHTML = "";
+        }
+      }
     }
   }
 });
