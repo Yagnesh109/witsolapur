@@ -2,12 +2,12 @@ from pathlib import Path
 import re
 
 branch_labels = {
-    'cse': 'Computer Science & Engineering',
+    'cse': 'Computer Science and Engineering',
     'it': 'Information Technology',
     'me': 'Mechanical and Automation Engineering',
     'ce': 'Civil Engineering',
-    'entc': 'Electronics & Telecommunication',
-    'ecs': 'Electronics & Computer Engineering'
+    'entc': 'Electronics and Telecommunication',
+    'ecs': 'Electronics and Computer Engineering'
 }
 
 for page_name, label in branch_labels.items():

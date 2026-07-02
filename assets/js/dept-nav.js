@@ -36,6 +36,8 @@ function buildSidebarMarkup(title) {
     linksList = linksList.filter((item) =>
       item.section === "hod-desk" ||
       item.section === "about-department" ||
+      item.section === "vision-mission" ||
+      item.section === "po-pso-peo" ||
       item.section === "syllabus"
     );
   }

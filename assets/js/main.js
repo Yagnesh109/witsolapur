@@ -74,13 +74,13 @@ if (navList) {
 }
 
 const branchTitles = {
-  cse: "Computer Science & Engineering",
+  cse: "Computer Science and Engineering",
   it: "Information Technology",
   me: "Mechanical and Automation Engineering",
   ce: "Civil Engineering",
-  entc: "Electronics & Telecommunication",
-  ecs: "Electronics & Computer Engineering",
-  aiml: "Artificial Intelligence & Machine Learning",
+  entc: "Electronics and Telecommunication Engineering",
+  ecs: "Electronics and Computer Engineering",
+  aiml: "Artificial Intelligence and Machine Learning",
   ge: "General Engineering"
 };
 
@@ -151,11 +151,11 @@ const menus = {
         ["Best Practices", "#academics-bestpractices"]
       ]],
       ["Departments", [
-        ["Artificial Intelligence & Machine Learning", "aiml"],
+        ["Artificial Intelligence and Machine Learning", "aiml"],
         ["Civil Engineering", "ce"],
-        ["Computer Science & Engineering", "cse"],
-        ["Electronics & Computer Engineering", "ecs"],
-        ["Electronics & Telecommunication", "entc"],
+        ["Computer Science and Engineering", "cse"],
+        ["Electronics and Computer Engineering", "ecs"],
+        ["Electronics and Telecommunication Engineering", "entc"],
         ["General Engineering", "ge"],
         ["Information Technology", "it"],
         ["Mechanical and Automation Engineering", "me"]

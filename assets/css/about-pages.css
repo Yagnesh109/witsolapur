@@ -77,12 +77,14 @@ body.about-page {
   font-weight: 600;
   font-size: 0.95rem;
   letter-spacing: 0.02em;
+  text-align: left !important;
 }
 
 .about-table td {
   padding: 16px 24px;
   border-bottom: 1px solid var(--border-color);
   color: var(--text-secondary);
+  text-align: left !important;
 }
 
 .about-table tr:last-child td {
