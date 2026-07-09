@@ -1001,21 +1001,9 @@ body.dept-sidebar-collapsed .dept-sidebar__link {
 
 .dept-page .syllabus-columns {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 22px;
     margin-top: 0;
-}
-
-@media (min-width: 769px) and (max-width: 1199px) {
-    .dept-page .syllabus-columns:has(> :nth-child(4)) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (min-width: 1200px) {
-    .dept-page .syllabus-columns:has(> :nth-child(4)) {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
 }
 
 .dept-page .syllabus-category-card {
