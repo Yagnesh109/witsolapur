@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumni Portal | WIT Solapur</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/about-pages.css">
+  <style>
+    /* Public Alumni Page Custom Styles */
+    .register-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      color: var(--white) !important;
+      background: var(--gradient-primary);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      cursor: pointer;
+    }
+    .register-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+      background: linear-gradient(135deg, var(--secondary-royal), var(--secondary-deep));
+    }
+
+    /* Modal Overlay styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-card {
+      background: var(--white);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 600px;
+      padding: 36px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+    .modal-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: var(--bg-alt);
+      border: none;
+      font-size: 1.5rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+    }
+    .modal-close:hover {
+      background: var(--border-color);
+      color: var(--text-primary);
+    }
+
+    /* Modal & Register Button Mobile Responsiveness */
+    @media (max-width: 600px) {
+      .directory-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        text-align: center;
+      }
+      .register-btn {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.95rem;
+      }
+      .modal-card {
+        padding: 24px 16px;
+        border-radius: 16px;
+        max-height: 95vh;
+        width: calc(100% - 32px);
+        margin: 16px;
+      }
+      .modal-close {
+        top: 16px;
+        right: 16px;
+        width: 32px;
+        height: 32px;
+        font-size: 1.25rem;
+      }
+      .modal-card h2 {
+        font-size: 1.4rem;
+        margin-bottom: 16px;
+        padding-right: 24px;
+      }
+    }
+    .modal-card h2 {
+      font-size: 1.75rem;
+      color: var(--secondary-deep);
+      font-weight: 800;
+      margin-bottom: 24px;
+      padding-right: 30px;
+    }
+
+    /* Form Fields Styling */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+      background: var(--bg-main);
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--secondary-royal);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      background: var(--white);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 500px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    .form-submit-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--white);
+      background: var(--gradient-primary);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+      transition: all 0.2s ease;
+      margin-top: 10px;
+    }
+    .form-submit-btn:hover {
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+      transform: translateY(-2px);
+    }
+
+    /* Directory Styles */
+    .directory-section {
+      margin-top: 0;
+    }
+    .directory-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 16px;
+    }
+    .directory-header h2 {
+      font-size: 1.75rem;
+      color: var(--secondary-deep);
+      font-weight: 800;
+      margin: 0;
+    }
+    .alumni-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 28px;
+      margin-bottom: 48px;
+    }
+    .alumni-card {
+      background: var(--white);
+      padding: 50px 20px 24px;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(15, 76, 129, 0.04);
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .alumni-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: var(--gradient-primary);
+      opacity: 0.95;
+      transition: height 0.3s ease;
+    }
+    .alumni-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(15, 76, 129, 0.1);
+      border-color: var(--secondary-royal);
+    }
+    .alumni-card:hover::before {
+      height: 90px;
+      transform: scale(1.03);
+    }
+    .alumni-photo-wrapper {
+      display: block;
+      width: 140px;
+      height: 175px;
+      margin: 0 auto 16px;
+      border: 4px solid var(--white);
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(15, 76, 129, 0.12);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .alumni-photo {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center top !important;
+      display: block;
+    }
+    .alumni-card:hover .alumni-photo-wrapper {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(15, 76, 129, 0.2);
+    }
+    .alumni-info {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .alumni-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--secondary-deep);
+      margin: 0;
+      line-height: 1.3;
+    }
+    .alumni-meta {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 2px;
+    }
+    .badge-year {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--secondary-royal);
+      padding: 3px 10px;
+      border-radius: 99px;
+      border: 1px solid rgba(37, 99, 235, 0.12);
+    }
+    .badge-dept {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.08);
+      color: var(--accent-success);
+      padding: 3px 10px;
+      border-radius: 99px;
+      border: 1px solid rgba(16, 185, 129, 0.12);
+    }
+    .alumni-work {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-top: 1px dashed rgba(191, 219, 254, 0.6);
+      padding-top: 8px;
+      margin-top: 2px;
+    }
+    .alumni-job {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+    .alumni-company {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+      margin: 0;
+    }
+    .company-icon {
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    /* Status Notifications */
+    .status-alert {
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: none;
+    }
+    .status-alert.success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--accent-success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      display: block;
+    }
+    .status-alert.error {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #EF4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      display: block;
+    }
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="about-page">
+  <header class="site-header site-header--dept" id="siteHeader">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="../index.html" aria-label="WIT home">
+        <img src="../assets/images/brand/logo.png" alt="Walchand Institute of Technology logo">
+      </a>
+      <button class="menu-toggle dept-sidebar-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-list dept-nav-links" id="navList">
+        <li><a class="nav-link" href="../index.html">Home</a></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="about">About</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="academics">Academics</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="admissions">Admissions</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="research">Research</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="campus">Campus Life</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="examination">Examination</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="contact">Contact</button></li>
+      </ul>
+    </nav>
+    <div class="mega-menu" id="megaMenu" aria-hidden="true"></div>
+  </header>
+
+  <!-- --- Main Container --- -->
+  <main class="about-container">
+    <!-- Alumni Directory Grid -->
+    <section class="directory-section">
+      <div class="directory-header">
+        <h2>Alumni Directory</h2>
+        <button class="register-btn" id="openRegisterModal">🎓 Register as Alumni</button>
+      </div>
+      <div class="alumni-grid" id="alumniGrid">
+        <!-- Dynamic content will be loaded here -->
+        <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 48px;">
+          <div class="loading-spinner" style="border-top-color: var(--secondary-royal); width: 40px; height: 40px;"></div>
+          <p style="margin-top: 16px;">Loading alumni profiles...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- --- Registration Modal --- -->
+  <div class="modal-overlay" id="registerModal">
+    <div class="modal-card">
+      <button class="modal-close" id="closeRegisterModal" aria-label="Close modal">&times;</button>
+      <h2>Alumni Registration</h2>
+      
+      <div class="status-alert" id="formAlert"></div>
+
+      <form id="alumniRegisterForm" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" class="form-control" placeholder="e.g. Rahul Sharma" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" class="form-control" placeholder="e.g. rahul.sharma@example.com" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="department">Department</label>
+            <select id="department" name="department" class="form-control" required>
+              <option value="" disabled selected>Select Department</option>
+              <option value="Computer Science and Engineering">Computer Science & Engg</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Mechanical and Automation Engineering">Mechanical & Automation</option>
+              <option value="Civil Engineering">Civil Engineering</option>
+              <option value="Electronics and Telecommunication">Electronics & Telecom</option>
+              <option value="Electronics and Computer Engineering">Electronics & Computer</option>
+              <option value="Artificial Intelligence and Machine Learning">AI & ML</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="graduation_year">Graduation Year</label>
+            <input type="number" id="graduation_year" name="graduation_year" class="form-control" min="1983" max="2026" placeholder="e.g. 2020" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="designation">Current Designation</label>
+            <input type="text" id="designation" name="designation" class="form-control" placeholder="e.g. Senior Software Engineer" required>
+          </div>
+
+          <div class="form-group">
+            <label for="company">Current Company/Organization</label>
+            <input type="text" id="company" name="company" class="form-control" placeholder="e.g. Microsoft" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="image">Professional Profile Photo</label>
+          <input type="file" id="image" name="image" class="form-control" accept="image/*" required style="padding: 8px 12px;">
+        </div>
+
+        <button type="submit" class="form-submit-btn" id="submitBtn">Submit Registration</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- --- Footer --- -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-brand" href="../index.html">
+          <img src="../assets/images/brand/logo.png" alt="WIT logo">
+          <div class="foot" style="display: flex; flex-direction: column;">
+            <h3>S.A.P.D. Jain Pathshala's</h3>
+            <h3>Walchand Institute of Technology</h3>
+            <h3>An Autonomous Institute</h3>
+          </div>
+        </a>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Walchand Hirachand Marg, Ashok Chowk, Solapur, Maharashtra</p>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@witsolapur.org" target="_blank" rel="noopener"
+          aria-label="Email principal@witsolapur.org">principal@witsolapur.org</a>
+        <p>+91 217 265 2700</p>
+      </div>
+      <div>
+        <h3>Social Media</h3>
+        <div class="social-links">
+          <a href="https://www.facebook.com/witsolapur" aria-label="Facebook">f</a>
+          <a href="https://www.linkedin.com/school/walchand-institute-of-technology-solapur/"
+            aria-label="LinkedIn">in</a>
+          <a href="https://x.com/SolapurWit" aria-label="Twitter">t</a>
+          <a href="https://www.instagram.com/wit_solapur_official/" aria-label="Instagram">ig</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Walchand Institute of Technology, Solapur.</span>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const API_BASE_URL = 'http://localhost:5000';
+    
+    // --- Sample Fallback Data if Backend API is offline ---
+    const fallbackAlumni = [
+      {
+        id: 'sample-1',
+        name: 'Amit Deshmukh',
+        department: 'Computer Science and Engineering',
+        graduation_year: '2015',
+        designation: 'Staff Software Engineer',
+        company: 'Google',
+        image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&fit=crop&q=80'
+      },
+      {
+        id: 'sample-2',
+        name: 'Neha Kulkarni',
+        department: 'Information Technology',
+        graduation_year: '2018',
+        designation: 'Senior Project Manager',
+        company: 'Deloitte',
+        image_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&fit=crop&q=80'
+      },
+      {
+        id: 'sample-3',
+        name: 'Prathamesh Joshi',
+        department: 'Electronics and Telecommunication',
+        graduation_year: '2012',
+        designation: 'VP of Engineering',
+        company: 'NVIDIA',
+        image_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&fit=crop&q=80'
+      }
+    ];
+
+    // --- DOM Elements ---
+    const registerModal = document.getElementById('registerModal');
+    const openRegisterModal = document.getElementById('openRegisterModal');
+    const closeRegisterModal = document.getElementById('closeRegisterModal');
+    const alumniRegisterForm = document.getElementById('alumniRegisterForm');
+    const alumniGrid = document.getElementById('alumniGrid');
+    const formAlert = document.getElementById('formAlert');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // --- Modal Controls ---
+    openRegisterModal.addEventListener('click', () => {
+      registerModal.classList.add('active');
+      formAlert.style.display = 'none';
+      alumniRegisterForm.reset();
+    });
+
+    closeRegisterModal.addEventListener('click', () => {
+      registerModal.classList.remove('active');
+    });
+
+    // Close on clicking backdrop
+    registerModal.addEventListener('click', (e) => {
+      if (e.target === registerModal) {
+        registerModal.classList.remove('active');
+      }
+    });
+
+    // --- Load Directory ---
+    async function loadAlumni() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/alumni/approved`);
+        if (!response.ok) throw new Error('API server response not ok');
+        
+        const data = await response.json();
+        renderAlumni(data);
+      } catch (error) {
+        console.warn('Could not load alumni from backend. Using local fallbacks.', error);
+        // Show fallback data but append a small informational label
+        renderAlumni(fallbackAlumni, true);
+      }
+    }
+
+    function renderAlumni(alumniList, isFallback = false) {
+      alumniGrid.innerHTML = '';
+      
+      if (alumniList.length === 0) {
+        alumniGrid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 48px;">
+            <p style="font-size: 1.2rem; font-weight: 600;">No alumni profiles found.</p>
+            <p>Be the first to register as an alumnus by clicking the button above!</p>
+          </div>
+        `;
+        return;
+      }
+
+      alumniList.forEach(alumni => {
+        const card = document.createElement('div');
+        card.className = 'alumni-card';
+        
+        // Handle local image URL rewriting if needed or load directly
+        let imgUrl = alumni.image_url;
+        
+        card.innerHTML = `
+          <div class="alumni-photo-wrapper">
+            <img src="${imgUrl}" alt="${alumni.name}" class="alumni-photo" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&fit=crop&q=80'">
+          </div>
+          <div class="alumni-info">
+            <h3 class="alumni-name">${escapeHTML(alumni.name)}</h3>
+            <div class="alumni-meta">
+              <span class="badge-year">Batch of ${escapeHTML(alumni.graduation_year)}</span>
+              <span class="badge-dept">${escapeHTML(getShortDeptName(alumni.department))}</span>
+            </div>
+            <div class="alumni-work">
+              <div class="alumni-job">${escapeHTML(alumni.designation)}</div>
+              <div class="alumni-company">
+                <span class="company-icon">🏢</span>
+                <span class="company-name">${escapeHTML(alumni.company)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        alumniGrid.appendChild(card);
+      });
+
+      if (isFallback) {
+        const info = document.createElement('div');
+        info.style.cssText = 'grid-column: 1/-1; text-align: center; background: rgba(37,99,235,0.05); padding: 12px; border-radius: 12px; font-size: 0.85rem; color: var(--text-secondary); border: 1px solid var(--border-color);';
+        info.innerHTML = '💡 Note: The API server is offline. Displaying sample profiles. All features will work once you start the Python backend.';
+        alumniGrid.insertBefore(info, alumniGrid.firstChild);
+      }
+    }
+
+    // --- Helper to shorten department names in badges ---
+    function getShortDeptName(dept) {
+      const mapping = {
+        'Computer Science and Engineering': 'CSE',
+        'Information Technology': 'IT',
+        'Mechanical and Automation Engineering': 'Mech',
+        'Civil Engineering': 'Civil',
+        'Electronics and Telecommunication': 'ENTC',
+        'Electronics and Computer Engineering': 'ECS',
+        'Artificial Intelligence and Machine Learning': 'AI/ML'
+      };
+      return mapping[dept] || dept;
+    }
+
+    // --- Escape HTML to prevent XSS ---
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    // --- Submit Form ---
+    alumniRegisterForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Update UI state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
+      formAlert.style.display = 'none';
+
+      const formData = new FormData(alumniRegisterForm);
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/alumni/register`, {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+          formAlert.className = 'status-alert success';
+          formAlert.textContent = result.message;
+          alumniRegisterForm.reset();
+          
+          // Close modal after 3 seconds
+          setTimeout(() => {
+            registerModal.classList.remove('active');
+          }, 3000);
+        } else {
+          throw new Error(result.message || 'Something went wrong during submission.');
+        }
+      } catch (error) {
+        formAlert.className = 'status-alert error';
+        formAlert.textContent = error.message || 'Could not connect to backend server. Make sure the Python server is running.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Registration';
+      }
+    });
+
+    // Initial Load
+    loadAlumni();
+  </script>
+</body>
+</html>

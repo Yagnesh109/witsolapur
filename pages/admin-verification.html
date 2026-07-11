@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Alumni Verification | WIT Solapur</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/about-pages.css">
+  <style>
+    /* Admin Verification Page Styling */
+    .admin-container {
+      max-width: 1200px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    /* Lock Screen Overlay */
+    .lock-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .lock-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .lock-card {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 40px rgba(15, 76, 129, 0.08);
+      text-align: center;
+    }
+    .lock-card h2 {
+      font-size: 1.5rem;
+      color: var(--secondary-deep);
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+    .lock-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+    .lock-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      font-family: inherit;
+      font-size: 1rem;
+      text-align: center;
+      letter-spacing: 0.2em;
+    }
+    .lock-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--gradient-primary);
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+    }
+    .lock-btn:hover {
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+    }
+    .lock-error {
+      color: #EF4444;
+      font-size: 0.85rem;
+      margin-top: 12px;
+      display: none;
+      font-weight: 600;
+    }
+
+    /* Dashboard Header */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .dashboard-title h1 {
+      font-size: 2rem;
+      color: var(--secondary-deep);
+      font-weight: 800;
+      margin: 0 0 6px 0;
+    }
+    .dashboard-title p {
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    .logout-btn {
+      padding: 8px 18px;
+      border-radius: 99px;
+      background: var(--bg-alt);
+      color: var(--secondary-deep);
+      border: 1px solid var(--border-color);
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+    .logout-btn:hover {
+      background: #fee2e2;
+      color: #dc2626;
+      border-color: #fca5a5;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 12px rgba(15, 76, 129, 0.02);
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .stat-value {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--secondary-deep);
+      line-height: 1;
+    }
+
+    /* Action Buttons in Table */
+    .btn-action {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-approve {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent-success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .btn-approve:hover {
+      background: var(--accent-success);
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+    }
+    .btn-delete {
+      background: rgba(239, 68, 68, 0.1);
+      color: #EF4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .btn-delete:hover {
+      background: #EF4444;
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+    }
+    .actions-cell {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Status Badges */
+    .status-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 99px;
+      display: inline-block;
+    }
+    .status-badge.pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-gold);
+    }
+    .status-badge.approved {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-success);
+    }
+
+    /* Table Image Thumbnail */
+    .table-thumb-wrapper {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg-alt);
+      border: 1px solid var(--border-color);
+    }
+    .table-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .table-thumb:hover {
+      transform: scale(1.1);
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 48px;
+      color: var(--text-muted);
+    }
+
+    /* Image zoom overlay */
+    .img-zoom-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.85);
+      z-index: 3000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .img-zoom-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .img-zoom-content {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    }
+    .img-zoom-content img {
+      display: block;
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+    .toast-notification {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      z-index: 4000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      font-weight: 600;
+      pointer-events: none;
+    }
+    .toast-notification.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="about-page">
+  <!-- Lock Screen Overlay -->
+  <div class="lock-screen" id="lockScreen">
+    <div class="lock-card">
+      <h2>WIT Admin Access</h2>
+      <p>Please enter your administrator passcode to view pending alumni and manage registration data.</p>
+      <input type="password" id="passcodeInput" class="lock-input" placeholder="••••••••" autofocus>
+      <button class="lock-btn" id="unlockBtn">Verify & Unlock</button>
+      <div class="lock-error" id="lockError">Invalid passcode. Please try again.</div>
+    </div>
+  </div>
+
+  <header class="site-header site-header--dept" id="siteHeader">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="../index.html" aria-label="WIT home">
+        <img src="../assets/images/brand/logo.png" alt="Walchand Institute of Technology logo">
+      </a>
+      <button class="menu-toggle dept-sidebar-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-list dept-nav-links" id="navList">
+        <li><a class="nav-link" href="../index.html">Home</a></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="about">About</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="academics">Academics</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="admissions">Admissions</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="research">Research</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="campus">Campus Life</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="examination">Examination</button></li>
+        <li><button class="nav-link menu-trigger" type="button" data-menu="contact">Contact</button></li>
+      </ul>
+    </nav>
+    <div class="mega-menu" id="megaMenu" aria-hidden="true"></div>
+  </header>
+
+  <!-- --- Main Container --- -->
+  <main class="admin-container">
+    <section class="dashboard-header">
+      <div class="dashboard-title">
+        <h1>Alumni Verification Panel</h1>
+        <p>Review and verify self-registered alumni submissions before they go public in the directory.</p>
+      </div>
+      <button class="logout-btn" id="logoutBtn">🔒 Lock Panel</button>
+    </section>
+
+    <!-- Statistics Grid -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Total Submissions</span>
+        <span class="stat-value" id="statTotal">0</span>
+      </div>
+      <div class="stat-card" style="border-left: 4px solid var(--accent-gold);">
+        <span class="stat-label">Pending Approval</span>
+        <span class="stat-value" id="statPending" style="color: var(--accent-gold);">0</span>
+      </div>
+      <div class="stat-card" style="border-left: 4px solid var(--accent-success);">
+        <span class="stat-label">Approved Alumni</span>
+        <span class="stat-value" id="statApproved" style="color: var(--accent-success);">0</span>
+      </div>
+    </section>
+
+    <!-- Table of Submissions -->
+    <section class="table-responsive">
+      <table class="about-table">
+        <thead>
+          <tr>
+            <th style="width: 60px;">Photo</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th style="width: 80px;">Batch</th>
+            <th>Current Role & Organization</th>
+            <th>Email</th>
+            <th style="width: 110px;">Status</th>
+            <th style="width: 180px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="adminTableBody">
+          <tr>
+            <td colspan="8" class="empty-state">
+              <div class="loading-spinner" style="border-top-color: var(--secondary-royal);"></div>
+              <p>Loading database records...</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- --- Image Zoom Overlay --- -->
+  <div class="img-zoom-overlay" id="zoomOverlay">
+    <div class="img-zoom-content">
+      <img src="" id="zoomedImage" alt="Zoomed Photo">
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toast">Alumni status updated!</div>
+
+  <!-- --- Footer --- -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-brand" href="../index.html">
+          <img src="../assets/images/brand/logo.png" alt="WIT logo">
+          <div class="foot" style="display: flex; flex-direction: column;">
+            <h3>S.A.P.D. Jain Pathshala's</h3>
+            <h3>Walchand Institute of Technology</h3>
+            <h3>An Autonomous Institute</h3>
+          </div>
+        </a>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Walchand Hirachand Marg, Ashok Chowk, Solapur, Maharashtra</p>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@witsolapur.org" target="_blank" rel="noopener"
+          aria-label="Email principal@witsolapur.org">principal@witsolapur.org</a>
+        <p>+91 217 265 2700</p>
+      </div>
+      <div>
+        <h3>Social Media</h3>
+        <div class="social-links">
+          <a href="https://www.facebook.com/witsolapur" aria-label="Facebook">f</a>
+          <a href="https://www.linkedin.com/school/walchand-institute-of-technology-solapur/"
+            aria-label="LinkedIn">in</a>
+          <a href="https://x.com/SolapurWit" aria-label="Twitter">t</a>
+          <a href="https://www.instagram.com/wit_solapur_official/" aria-label="Instagram">ig</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Walchand Institute of Technology, Solapur.</span>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const API_BASE_URL = 'http://localhost:5000';
+    let adminPasscode = '';
+
+    // --- DOM Elements ---
+    const lockScreen = document.getElementById('lockScreen');
+    const passcodeInput = document.getElementById('passcodeInput');
+    const unlockBtn = document.getElementById('unlockBtn');
+    const lockError = document.getElementById('lockError');
+    const adminTableBody = document.getElementById('adminTableBody');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const zoomOverlay = document.getElementById('zoomOverlay');
+    const zoomedImage = document.getElementById('zoomedImage');
+    
+    // Stats elements
+    const statTotal = document.getElementById('statTotal');
+    const statPending = document.getElementById('statPending');
+    const statApproved = document.getElementById('statApproved');
+
+    // --- Authentication ---
+    function checkSessionAuth() {
+      const savedPasscode = sessionStorage.getItem('admin_passcode');
+      if (savedPasscode) {
+        adminPasscode = savedPasscode;
+        lockScreen.classList.add('hidden');
+        loadAdminDashboard();
+      }
+    }
+
+    async function attemptUnlock() {
+      const code = passcodeInput.value;
+      if (!code) return;
+
+      unlockBtn.disabled = true;
+      unlockBtn.textContent = 'Verifying...';
+      lockError.style.display = 'none';
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/admin/verify-passcode`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: code })
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          adminPasscode = code;
+          sessionStorage.setItem('admin_passcode', code);
+          lockScreen.classList.add('hidden');
+          showToast('Passcode Verified!');
+          loadAdminDashboard();
+        } else {
+          throw new Error('Invalid passcode');
+        }
+      } catch (error) {
+        lockError.style.display = 'block';
+        passcodeInput.value = '';
+        passcodeInput.focus();
+      } finally {
+        unlockBtn.disabled = false;
+        unlockBtn.textContent = 'Verify & Unlock';
+      }
+    }
+
+    unlockBtn.addEventListener('click', attemptUnlock);
+    passcodeInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') attemptUnlock();
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      sessionStorage.removeItem('admin_passcode');
+      adminPasscode = '';
+      lockScreen.classList.remove('hidden');
+      passcodeInput.focus();
+    });
+
+    // --- Load Dashboard Data ---
+    async function loadAdminDashboard() {
+      adminTableBody.innerHTML = `
+        <tr>
+          <td colspan="8" class="empty-state">
+            <div class="loading-spinner" style="border-top-color: var(--secondary-royal);"></div>
+            <p>Loading database records...</p>
+          </td>
+        </tr>
+      `;
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/admin/alumni`, {
+          headers: { 'X-Admin-Passcode': adminPasscode }
+        });
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            // Unauthorized - lock screen again
+            logoutBtn.click();
+            return;
+          }
+          throw new Error('Could not fetch records');
+        }
+
+        const data = await response.json();
+        renderAdminDashboard(data);
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+        adminTableBody.innerHTML = `
+          <tr>
+            <td colspan="8" class="empty-state" style="color: #EF4444;">
+              <p>❌ Error connecting to the Python Flask backend server.</p>
+              <p style="font-size: 0.9rem; margin-top: 8px;">Ensure the backend is running at http://localhost:5000 and try reloading this page.</p>
+            </td>
+          </tr>
+        `;
+      }
+    }
+
+    function renderAdminDashboard(records) {
+      adminTableBody.innerHTML = '';
+      
+      // Calculate Stats
+      let pendingCount = 0;
+      let approvedCount = 0;
+      records.forEach(r => {
+        if (r.status === 'Approved') approvedCount++;
+        else if (r.status === 'Pending') pendingCount++;
+      });
+      statTotal.textContent = records.length;
+      statPending.textContent = pendingCount;
+      statApproved.textContent = approvedCount;
+
+      if (records.length === 0) {
+        adminTableBody.innerHTML = `
+          <tr>
+            <td colspan="8" class="empty-state">
+              <p>No alumni registration submissions found in the database.</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      records.forEach(alumni => {
+        const tr = document.createElement('tr');
+        
+        // Photo cell
+        const tdPhoto = document.createElement('td');
+        tdPhoto.innerHTML = `
+          <div class="table-thumb-wrapper">
+            <img src="${alumni.image_url}" alt="${alumni.name}" class="table-thumb" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&fit=crop&q=80'">
+          </div>
+        `;
+        tdPhoto.querySelector('.table-thumb').addEventListener('click', () => {
+          showZoomedImage(alumni.image_url);
+        });
+
+        // Details cells
+        const tdName = document.createElement('td');
+        tdName.innerHTML = `<strong>${escapeHTML(alumni.name)}</strong>`;
+
+        const tdDept = document.createElement('td');
+        tdDept.textContent = alumni.department;
+
+        const tdYear = document.createElement('td');
+        tdYear.textContent = alumni.graduation_year;
+
+        const tdRole = document.createElement('td');
+        tdRole.innerHTML = `<div>${escapeHTML(alumni.designation)}</div><div style="font-size:0.85rem; color:var(--text-muted);">at ${escapeHTML(alumni.company)}</div>`;
+
+        const tdEmail = document.createElement('td');
+        tdEmail.innerHTML = `<a href="mailto:${alumni.email}" style="color:var(--secondary-royal);text-decoration:underline;">${escapeHTML(alumni.email)}</a>`;
+
+        // Status badge
+        const tdStatus = document.createElement('td');
+        const isAppr = alumni.status === 'Approved';
+        tdStatus.innerHTML = `<span class="status-badge ${isAppr ? 'approved' : 'pending'}">${alumni.status}</span>`;
+
+        // Actions
+        const tdActions = document.createElement('td');
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'actions-cell';
+        
+        if (!isAppr) {
+          const approveBtn = document.createElement('button');
+          approveBtn.className = 'btn-action btn-approve';
+          approveBtn.innerHTML = '✔ Approve';
+          approveBtn.addEventListener('click', () => approveAlumnus(alumni.id));
+          actionsDiv.appendChild(approveBtn);
+        }
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn-action btn-delete';
+        deleteBtn.innerHTML = '🗑 Delete';
+        deleteBtn.addEventListener('click', () => deleteAlumnus(alumni.id, alumni.name));
+        actionsDiv.appendChild(deleteBtn);
+
+        tdActions.appendChild(actionsDiv);
+
+        // Append everything
+        tr.appendChild(tdPhoto);
+        tr.appendChild(tdName);
+        tr.appendChild(tdDept);
+        tr.appendChild(tdYear);
+        tr.appendChild(tdRole);
+        tr.appendChild(tdEmail);
+        tr.appendChild(tdStatus);
+        tr.appendChild(tdActions);
+
+        adminTableBody.appendChild(tr);
+      });
+    }
+
+    // --- Action Operations ---
+    async function approveAlumnus(id) {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/admin/alumni/${id}/approve`, {
+          method: 'POST',
+          headers: { 'X-Admin-Passcode': adminPasscode }
+        });
+
+        const result = await response.json();
+        if (response.ok && result.success) {
+          showToast('Alumni approved successfully!');
+          loadAdminDashboard();
+        } else {
+          throw new Error(result.message || 'Approval failed');
+        }
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+
+    async function deleteAlumnus(id, name) {
+      if (!confirm(`Are you sure you want to delete the alumni record for "${name}"? This action is permanent and will delete the row and the uploaded photo.`)) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/admin/alumni/${id}`, {
+          method: 'DELETE',
+          headers: { 'X-Admin-Passcode': adminPasscode }
+        });
+
+        const result = await response.json();
+        if (response.ok && result.success) {
+          showToast('Alumni record deleted.');
+          loadAdminDashboard();
+        } else {
+          throw new Error(result.message || 'Deletion failed');
+        }
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+
+    // --- Image Zoom Controls ---
+    function showZoomedImage(url) {
+      zoomedImage.src = url;
+      zoomOverlay.classList.add('active');
+    }
+
+    zoomOverlay.addEventListener('click', () => {
+      zoomOverlay.classList.remove('active');
+    });
+
+    // --- Toast notification ---
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // --- Escape HTML to prevent XSS ---
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    // Run Auth checks on load
+    checkSessionAuth();
+  </script>
+</body>
+</html>

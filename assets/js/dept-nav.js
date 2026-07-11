@@ -38,6 +38,7 @@ function buildSidebarMarkup(title) {
       item.section === "about-department" ||
       item.section === "vision-mission" ||
       item.section === "po-pso-peo" ||
+      item.section === "faculty" ||
       item.section === "syllabus"
     );
   }

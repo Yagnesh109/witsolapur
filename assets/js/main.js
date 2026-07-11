@@ -54,7 +54,7 @@ if (navList) {
       campusLi.after(placementLi);
 
       const alumniLi = document.createElement("li");
-      alumniLi.innerHTML = `<a class="nav-link" href="${rootPrefix}pages/coming-soon.html?dept=alumni">Alumni</a>`;
+      alumniLi.innerHTML = `<a class="nav-link" href="${rootPrefix}pages/alumni.html">Alumni</a>`;
       placementLi.after(alumniLi);
     }
   }
