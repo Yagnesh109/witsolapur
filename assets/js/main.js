@@ -721,36 +721,68 @@ function startHeroAnimation() {
 setupRevealAnimations();
 initHomeMarquees();
 
-function setupFirstVisitPopup() {
-  const modal = document.querySelector("#firstVisitModal");
-  const closeBtn = document.querySelector("#firstVisitClose");
+function setupAdmissionsPanel() {
+  const panel = document.querySelector("#admissionsPanel");
+  const tab = document.querySelector("#admissionsTab");
+  const closeBtn = document.querySelector("#admissionsPanelClose");
+  const overlay = document.querySelector("#admissionsPanelOverlay");
 
-  if (!modal || !closeBtn) {
+  if (!panel || !tab || !closeBtn) {
     startHeroAnimation();
     return;
   }
 
-  window.addEventListener("load", () => {
-    modal.hidden = false;
-    document.body.classList.add("modal-open");
-  });
+  function openPanel() {
+    panel.classList.add("open");
+    panel.setAttribute("aria-hidden", "false");
+    if (overlay) {
+      overlay.removeAttribute("hidden");
+      requestAnimationFrame(() => {
+        overlay.classList.add("open");
+      });
+    }
+    document.body.classList.add("panel-open");
+  }
 
-  function closeModal() {
-    modal.hidden = true;
-    document.body.classList.remove("modal-open");
+  function closePanel() {
+    panel.classList.remove("open");
+    panel.setAttribute("aria-hidden", "true");
+    if (overlay) {
+      overlay.classList.remove("open");
+      setTimeout(() => {
+        if (!panel.classList.contains("open")) {
+          overlay.setAttribute("hidden", "");
+        }
+      }, 400);
+    }
+    document.body.classList.remove("panel-open");
     startHeroAnimation();
   }
 
-  closeBtn.addEventListener("click", closeModal);
-  modal.addEventListener("click", (event) => {
-    if (event.target === modal) closeModal();
+  window.addEventListener("load", () => {
+    startHeroAnimation();
   });
+
+  tab.addEventListener("click", () => {
+    if (panel.classList.contains("open")) {
+      closePanel();
+    } else {
+      openPanel();
+    }
+  });
+
+  closeBtn.addEventListener("click", closePanel);
+  if (overlay) {
+    overlay.addEventListener("click", closePanel);
+  }
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !modal.hidden) closeModal();
+    if (event.key === "Escape" && panel.classList.contains("open")) {
+      closePanel();
+    }
   });
 }
 
-setupFirstVisitPopup();
+setupAdmissionsPanel();
 
 // Slideshow Controller
 function initSlideshow() {

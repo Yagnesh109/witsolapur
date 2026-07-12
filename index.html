@@ -116,26 +116,31 @@
   </aside>
   <div class="announcement-backdrop" id="announcementBackdrop" hidden></div>
 
-  <div class="first-visit-modal" id="firstVisitModal" hidden>
-    <div class="first-visit-backdrop"></div>
-    <div class="first-visit-card">
-      <button class="first-visit-close" id="firstVisitClose" type="button" aria-label="Close popup">✕</button>
-      <h2 class="first-visit-heading">2026-27 Admission</h2>
-      <figure class="first-visit-figure">
+  <!-- Admissions Sliding Side Panel -->
+  <div class="admissions-panel" id="admissionsPanel" aria-hidden="true">
+    <button class="admissions-tab" id="admissionsTab" type="button" aria-label="Toggle Admissions Panel">
+      Admissions
+    </button>
+    <div class="admissions-panel-content">
+      <button class="admissions-panel-close" id="admissionsPanelClose" type="button" aria-label="Close admissions panel">✕</button>
+      <h2 class="admissions-panel-heading">2026-27 Admission</h2>
+      <figure class="admissions-panel-figure">
         <img src="assets/images/campus/campus-bg.png" alt="WIT campus view">
       </figure>
-      <div class="first-visit-actions">
-        <a class="first-visit-action first-visit-action--primary" href="https://docs.google.com/forms/d/e/1FAIpQLSevzcvhKhDofGD0NIkml0wrZBPNnj_vrmRt8ZgHa3zK795UZg/viewform?pli=1">
+      <div class="admissions-panel-actions">
+        <a class="admissions-panel-action admissions-panel-action--primary" href="https://docs.google.com/forms/d/e/1FAIpQLSevzcvhKhDofGD0NIkml0wrZBPNnj_vrmRt8ZgHa3zK795UZg/viewform?pli=1">
           Admission
         </a>
       </div>
-      <div class="first-visit-contact">
+      <div class="admissions-panel-contact">
         <p>For more details contact:</p>
         <p><strong>Call Us:</strong> 758 857 1100 | 758 858 1100</p>
         <p><strong>Email Us:</strong> <a href="mailto:admissions@witsolapur.org">admissions@witsolapur.org</a></p>
       </div>
     </div>
   </div>
+  <div class="admissions-panel-overlay" id="admissionsPanelOverlay" hidden></div>
+
 
   <main>
     <section class="hero" id="home">

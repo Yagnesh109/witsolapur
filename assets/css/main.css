@@ -339,41 +339,39 @@ button {
   display: none;
 }
 
-.first-visit-modal {
+/* Admissions Sliding Side Panel */
+.admissions-panel {
   position: fixed;
-  inset: 0;
-  z-index: 320;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: rgba(2, 8, 23, 0.85);
-  backdrop-filter: blur(12px);
-  overflow-y: auto;
-}
-
-.first-visit-modal[hidden] {
-  display: none;
-}
-
-.first-visit-card {
-  position: relative;
-  width: min(540px, 100%);
+  top: 0;
+  right: 0;
+  width: min(440px, 100vw);
+  height: 100%;
   background: #ffffff;
-  border-radius: 24px;
-  padding: 40px 24px 32px;
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  text-align: center;
-  margin: auto;
-  max-height: calc(100vh - 40px);
+  z-index: 300;
+  box-shadow: -10px 0 40px rgba(2, 8, 23, 0.15);
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.admissions-panel.open {
+  transform: translateX(0);
+}
+
+.admissions-panel-content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 64px 24px 32px; /* Top padding to accommodate close button */
   overflow-y: auto;
 }
 
-.first-visit-close {
+.admissions-panel-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 16px;
+  right: 16px;
   width: 40px;
   height: 40px;
   border-radius: 12px;
@@ -389,153 +387,170 @@ button {
   transition: all 0.2s ease;
 }
 
-.first-visit-close:hover {
+.admissions-panel-close:hover {
   background: #e1f5fe;
-  transform: rotate(90deg);
 }
 
-@media (max-width: 480px) {
-  .first-visit-modal {
-    padding: 12px;
-  }
-  
-  .first-visit-card {
-    padding: 36px 18px 24px;
-    border-radius: 20px;
-  }
-  
-  .first-visit-close {
-    top: 8px;
-    right: 8px;
-    width: 36px;
-    height: 36px;
-  }
-}
-
-.first-visit-label {
-  display: inline-flex;
-  margin: 0 auto 14px;
-  padding: 8px 16px;
-  border-radius: 999px;
+.admissions-tab {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-100%, -50%);
   background: linear-gradient(135deg, #0288d1, #03a9f4);
-  color: #f0f9ff;
-  font-weight: 800;
-  letter-spacing: 0.14em;
+  color: #ffffff;
+  border: none;
+  padding: 20px 14px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-size: 0.78rem;
+  border-radius: 12px 0 0 12px; /* rounded left corners */
+  cursor: pointer;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+  box-shadow: -6px 0 20px rgba(2, 136, 209, 0.25);
+  display: flex;
+  align-items: center;
   justify-content: center;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  z-index: 301;
 }
 
-.first-visit-heading {
-  margin: 0 0 18px;
+.admissions-tab:hover {
+  background: linear-gradient(135deg, #0277bd, #0288d1);
+  box-shadow: -6px 0 24px rgba(2, 136, 209, 0.4);
+}
+
+.admissions-panel-heading {
+  margin: 10px 0 20px;
   color: #0277bd;
-  font-size: clamp(1.8rem, 2.4vw, 2.2rem);
-  line-height: 1.08;
+  font-size: clamp(1.6rem, 2.2vw, 2rem);
+  line-height: 1.2;
   text-align: center;
+  font-weight: 800;
 }
 
-.first-visit-figure {
+.admissions-panel-figure {
   margin: 0 0 24px;
   overflow: hidden;
-  border-radius: 22px;
+  border-radius: 16px;
 }
 
-.first-visit-figure img {
+.admissions-panel-figure img {
   width: 100%;
   display: block;
-  border-radius: 22px;
-  box-shadow: 0 24px 50px rgba(13, 71, 161, 0.14);
+  border-radius: 16px;
+  box-shadow: 0 16px 36px rgba(13, 71, 161, 0.12);
 }
 
-.first-visit-actions {
+.admissions-panel-actions {
   display: flex;
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
-  margin: 0 auto 18px;
+  margin: 0 auto 24px;
 }
 
-.first-visit-action {
+.admissions-panel-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   min-width: 160px;
-  padding: 16px 30px;
+  padding: 14px 28px;
   border-radius: 999px;
   background: linear-gradient(135deg, #0288d1, #03a9f4);
   color: #ffffff;
   font-size: 1rem;
   font-weight: 800;
-  box-shadow: 0 16px 35px rgba(2, 136, 209, 0.18);
+  box-shadow: 0 12px 30px rgba(2, 136, 209, 0.15);
   transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
   text-decoration: none;
 }
 
-.first-visit-action:hover {
-  transform: translateY(-1px);
+.admissions-panel-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 35px rgba(2, 136, 209, 0.25);
 }
 
-.first-visit-action--secondary {
-  background: rgba(3, 169, 244, 0.1);
-  color: #0288d1;
-  box-shadow: none;
-  border: 1px solid rgba(3, 169, 244, 0.18);
-}
-
-.first-visit-action--secondary:hover {
-  background: rgba(3, 169, 244, 0.16);
-}
-
-.first-visit-action span {
-  color: rgba(255, 255, 255, 0.88);
-  font-weight: 700;
-}
-
-.first-visit-contact {
+.admissions-panel-contact {
   text-align: center;
-  font-size: 0.98rem;
-  line-height: 1.75;
+  font-size: 0.95rem;
+  line-height: 1.6;
   background: linear-gradient(135deg, rgba(56, 189, 248, 0.07) 0%, rgba(2, 119, 189, 0.04) 100%);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  border: 1px solid rgba(56, 189, 248, 0.2);
   border-radius: 16px;
   padding: 16px 20px;
-  margin-top: 24px;
+  margin-top: auto; /* Push contact details to bottom */
 }
 
-.first-visit-contact p {
+.admissions-panel-contact p {
   margin: 6px 0;
   color: #334155;
 }
 
-.first-visit-contact p:first-child {
+.admissions-panel-contact p:first-child {
   font-weight: 600;
   color: #0f172a;
-  font-size: 1.02rem;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  margin-bottom: 8px;
 }
 
-.first-visit-contact strong {
+.admissions-panel-contact strong {
   color: #0277bd;
   font-weight: 700;
 }
 
-.first-visit-contact a {
-  color: #0284c7;
+.admissions-panel-contact a {
+  color: #0288d1;
   text-decoration: none;
   font-weight: 600;
   border-bottom: 1.5px solid transparent;
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 
-.first-visit-contact a:hover {
-  color: #0369a1;
-  border-color: #0369a1;
+.admissions-panel-contact a:hover {
+  color: #0277bd;
+  border-color: #0277bd;
 }
 
-body.modal-open {
+.admissions-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 8, 23, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 299; /* just below the panel */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.admissions-panel-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+body.panel-open {
   overflow: hidden;
 }
+
+@media (max-width: 480px) {
+  .admissions-panel-content {
+    padding: 60px 16px 24px;
+  }
+  .admissions-panel-close {
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+  }
+  .admissions-tab {
+    padding: 16px 10px;
+    font-size: 0.8rem;
+  }
+}
+
 
 .navbar {
   position: relative;
