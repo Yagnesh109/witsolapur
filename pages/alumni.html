@@ -496,6 +496,75 @@
       opacity: 0.5;
       cursor: not-allowed;
     }
+
+    /* Custom Year Picker Calendar Popover */
+    .year-picker-popover {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 280px;
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      z-index: 1050;
+      padding: 16px;
+      display: none;
+      margin-top: 8px;
+    }
+    .year-picker-popover.active {
+      display: block;
+    }
+    .year-picker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-weight: 700;
+      color: var(--secondary-deep);
+    }
+    .year-nav-btn {
+      background: var(--bg-alt);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+    }
+    .year-nav-btn:hover {
+      background: var(--border-color);
+      color: var(--secondary-royal);
+    }
+    .year-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .year-picker-cell {
+      padding: 10px;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+    }
+    .year-picker-cell:hover {
+      background: var(--bg-alt);
+      color: var(--secondary-royal);
+    }
+    .year-picker-cell.selected {
+      background: #F3F4F6;
+      color: #EF4444;
+      font-weight: 700;
+    }
   </style>
 </head>
 <body class="about-page">
@@ -627,9 +696,18 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" style="position: relative;">
             <label for="graduation_year">Graduation Year</label>
-            <input type="number" id="graduation_year" name="graduation_year" class="form-control" min="1983" max="2026" placeholder="e.g. 2020" required>
+            <input type="number" id="graduation_year" name="graduation_year" class="form-control" min="1980" max="2100" placeholder="e.g. 2020" required readonly style="cursor: pointer; background-color: var(--white);">
+            <!-- Custom Year Picker Calendar Popover -->
+            <div class="year-picker-popover" id="yearPickerPopover">
+              <div class="year-picker-header">
+                <button type="button" class="year-nav-btn" id="prevYearsBtn">&lt;</button>
+                <span id="currentYearRange">2018</span>
+                <button type="button" class="year-nav-btn" id="nextYearsBtn">&gt;</button>
+              </div>
+              <div class="year-picker-grid" id="yearPickerGrid"></div>
+            </div>
           </div>
         </div>
 
@@ -1066,6 +1144,80 @@
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Registration';
+      }
+    });
+
+    // --- Custom Graduation Year Calendar Picker ---
+    const gradYearInput = document.getElementById('graduation_year');
+    const yearPickerPopover = document.getElementById('yearPickerPopover');
+    const prevYearsBtn = document.getElementById('prevYearsBtn');
+    const nextYearsBtn = document.getElementById('nextYearsBtn');
+    const currentYearRange = document.getElementById('currentYearRange');
+    const yearPickerGrid = document.getElementById('yearPickerGrid');
+
+    let pickerMiddleYear = 2026;
+
+    function openYearPicker() {
+      const val = parseInt(gradYearInput.value);
+      pickerMiddleYear = isNaN(val) ? new Date().getFullYear() : val;
+      renderPickerYears(pickerMiddleYear);
+      yearPickerPopover.classList.add('active');
+    }
+
+    function renderPickerYears(middleYear) {
+      currentYearRange.textContent = middleYear;
+      yearPickerGrid.innerHTML = '';
+      
+      const startYear = middleYear - 5;
+      const selectedVal = parseInt(gradYearInput.value);
+
+      for (let i = 0; i < 12; i++) {
+        const yr = startYear + i;
+        if (yr >= 1980 && yr <= 2100) {
+          const cell = document.createElement('div');
+          cell.className = 'year-picker-cell';
+          if (yr === selectedVal) {
+            cell.classList.add('selected');
+          }
+          cell.textContent = yr;
+          cell.addEventListener('click', (e) => {
+            e.stopPropagation();
+            gradYearInput.value = yr;
+            yearPickerPopover.classList.remove('active');
+            gradYearInput.dispatchEvent(new Event('change'));
+          });
+          yearPickerGrid.appendChild(cell);
+        } else {
+          const cell = document.createElement('div');
+          cell.className = 'year-picker-cell';
+          cell.style.visibility = 'hidden';
+          yearPickerGrid.appendChild(cell);
+        }
+      }
+    }
+
+    gradYearInput.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openYearPicker();
+    });
+
+    prevYearsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      pickerMiddleYear -= 12;
+      if (pickerMiddleYear < 1980) pickerMiddleYear = 1980;
+      renderPickerYears(pickerMiddleYear);
+    });
+
+    nextYearsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      pickerMiddleYear += 12;
+      if (pickerMiddleYear > 2100) pickerMiddleYear = 2100;
+      renderPickerYears(pickerMiddleYear);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!yearPickerPopover.contains(e.target) && e.target !== gradYearInput) {
+        yearPickerPopover.classList.remove('active');
       }
     });
 
