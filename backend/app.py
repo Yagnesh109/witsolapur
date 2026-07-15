@@ -140,9 +140,6 @@ def register_alumni():
 
     # Basic Validation
     if not all([name, email, mobile_number, department, graduation_year, designation, company, image_file]):
-        return jsonify({'success': False, 'message': 'All form fields and image are required.'}), 400
-
-    if not allowed_file(image_file.filename):
         return jsonify({'success': False, 'message': 'Invalid image format. Allowed formats: PNG, JPG, JPEG, GIF, WEBP.'}), 400
 
     # Save local image
@@ -166,10 +163,7 @@ def register_alumni():
         'department': department.strip(),
         'graduation_year': graduation_year.strip(),
         'designation': designation.strip(),
-        'company': company.strip(),
         'image_url': image_url,
-        'status': 'Pending',
-        'created_at': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     }
 
     # Save to database
@@ -213,7 +207,6 @@ def export_alumni_excel():
         return jsonify({'success': False, 'message': 'Unauthorized admin passcode.'}), 401
 
     all_alumni = db.get_all()
-    approved = [a for a in all_alumni if a.get('status') == 'Approved']
 
     # Sort year-wise ascending, and branch-wise (department) ascending.
     approved.sort(key=lambda x: (
@@ -287,8 +280,6 @@ def approve_alumni(record_id):
     if success:
         return jsonify({'success': True, 'message': 'Alumni registration approved successfully!'})
     else:
-        return jsonify({'success': False, 'message': 'Failed to approve alumni registration or alumnus not found.'}), 404
-
 # Admin: Delete/Reject Alumni
 @app.route('/api/admin/alumni/<record_id>', methods=['DELETE'])
 @require_admin

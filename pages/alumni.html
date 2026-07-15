@@ -785,12 +785,9 @@
 
     thankYouModal.addEventListener('click', (e) => {
       if (e.target === thankYouModal) {
-        thankYouModal.classList.remove('active');
       }
     });
 
-    // --- Load Directory ---
-    let currentPage = 1;
     let allAlumniData = [];
 
     function renderSkeletons() {

@@ -694,10 +694,7 @@
         adminPasscode = savedPasscode;
         lockScreen.classList.add('hidden');
         document.getElementById('exportBtn').style.display = 'inline-flex';
-        loadAdminDashboard();
       }
-    }
-
     async function attemptUnlock() {
       const code = passcodeInput.value;
       if (!code) return;
