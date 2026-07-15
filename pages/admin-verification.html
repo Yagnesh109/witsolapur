@@ -781,6 +781,7 @@
     }
 
     async function loadAdminDashboard() {
+      console.log(`[Admin Fetch] Attempting to load all submissions from: ${API_BASE_URL}/api/admin/alumni`);
       renderTableSkeletons();
 
       try {
@@ -788,18 +789,21 @@
           headers: { 'X-Admin-Passcode': adminPasscode }
         });
 
+        console.log(`[Admin Fetch] Response status received: ${response.status} (${response.statusText})`);
         if (!response.ok) {
           if (response.status === 401) {
+            console.error('[Admin Fetch] Unauthorized admin passcode (401). Logging out.');
             logoutBtn.click();
             return;
           }
-          throw new Error('Could not fetch records');
+          throw new Error(`Could not fetch records (status ${response.status})`);
         }
 
         const data = await response.json();
+        console.log(`[Admin Fetch] Successfully loaded ${data.length} records.`);
         renderAdminDashboard(data);
       } catch (error) {
-        console.error('Error loading dashboard:', error);
+        console.error('[Admin Fetch Error] Failed to load dashboard. Error details:', error);
         const errorHtml = `
           <tr>
             <td colspan="7" class="empty-state" style="color: #EF4444;">
@@ -821,14 +825,15 @@
       let pendingCount = 0;
       let approvedCount = 0;
       records.forEach(r => {
-        if (r.status === 'Approved') approvedCount++;
-        else if (r.status === 'Pending') pendingCount++;
+        const status = r.status || 'Pending';
+        if (status === 'Approved') approvedCount++;
+        else if (status === 'Pending') pendingCount++;
       });
       statTotal.textContent = records.length;
       statPending.textContent = pendingCount;
       statApproved.textContent = approvedCount;
 
-      const pendingList = records.filter(r => r.status === 'Pending');
+      const pendingList = records.filter(r => (r.status || 'Pending') === 'Pending');
       const approvedList = records.filter(r => r.status === 'Approved');
 
       function createRow(alumni, isApproved) {
@@ -856,7 +861,7 @@
         tdYear.textContent = alumni.graduation_year;
 
         const tdRole = document.createElement('td');
-        tdRole.innerHTML = `<div>${escapeHTML(alumni.designation)}</div><div style="font-size:0.85rem; color:var(--text-muted);">at ${escapeHTML(alumni.company)}</div>`;
+        tdRole.innerHTML = `<div>${escapeHTML(alumni.designation)}</div><div style="font-size:0.85rem; color:var(--text-muted);">at ${escapeHTML(alumni.company || 'N/A')}</div>`;
 
         const tdEmail = document.createElement('td');
         tdEmail.innerHTML = `
@@ -946,39 +951,53 @@
 
     // --- Action Operations ---
     async function approveAlumnus(id) {
+      console.log(`[Admin Action] Sending approve request for alumnus ID: ${id}`);
       try {
-        const response = await fetch(`${API_BASE_URL}/api/admin/alumni/${id}/approve`, {
+        const targetUrl = `${API_BASE_URL}/api/admin/alumni/${id}/approve`;
+        const response = await fetch(targetUrl, {
           method: 'POST',
           headers: { 'X-Admin-Passcode': adminPasscode }
         });
 
+        console.log(`[Admin Action] Approve response status received: ${response.status}`);
         const result = await response.json();
+        console.log('[Admin Action] Approve response JSON parsed:', result);
+
         if (response.ok && result.success) {
+          console.log('[Admin Action] Approval succeeded.');
           showToast('Alumni approved successfully!');
           loadAdminDashboard();
         } else {
           throw new Error(result.message || 'Approval failed');
         }
       } catch (error) {
+        console.error('[Admin Action Error] Approval failed. Error details:', error);
         showToast('Error: ' + error.message);
       }
     }
 
     async function deleteAlumnus(id) {
+      console.log(`[Admin Action] Sending delete/reject request for alumnus ID: ${id}`);
       try {
-        const response = await fetch(`${API_BASE_URL}/api/admin/alumni/${id}`, {
+        const targetUrl = `${API_BASE_URL}/api/admin/alumni/${id}`;
+        const response = await fetch(targetUrl, {
           method: 'DELETE',
           headers: { 'X-Admin-Passcode': adminPasscode }
         });
 
+        console.log(`[Admin Action] Delete response status received: ${response.status}`);
         const result = await response.json();
+        console.log('[Admin Action] Delete response JSON parsed:', result);
+
         if (response.ok && result.success) {
+          console.log('[Admin Action] Deletion succeeded.');
           showToast('Alumni record deleted.');
           loadAdminDashboard();
         } else {
           throw new Error(result.message || 'Deletion failed');
         }
       } catch (error) {
+        console.error('[Admin Action Error] Deletion failed. Error details:', error);
         showToast('Error: ' + error.message);
       }
     }

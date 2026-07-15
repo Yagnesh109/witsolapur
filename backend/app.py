@@ -166,6 +166,9 @@ def register_alumni():
         'department': department.strip(),
         'graduation_year': graduation_year.strip(),
         'designation': designation.strip(),
+        'company': company.strip(),
+        'status': 'Pending',
+        'created_at': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         'image_url': image_url,
     }
 

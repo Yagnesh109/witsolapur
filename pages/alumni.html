@@ -886,17 +886,21 @@
     }
 
     async function loadAlumni() {
+      console.log(`[Fetch] Attempting to load approved alumni from: ${API_BASE_URL}/api/alumni/approved`);
       renderSkeletons();
       try {
         const response = await fetch(`${API_BASE_URL}/api/alumni/approved`);
+        console.log(`[Fetch] Response status received: ${response.status} (${response.statusText})`);
         if (!response.ok) throw new Error('API server response not ok');
         
         const data = await response.json();
+        console.log(`[Fetch] Loaded ${data.length} alumni successfully from backend.`);
         allAlumniData = data;
         populateFilterDropdowns();
         renderAlumniList();
       } catch (error) {
-        console.warn('Could not load alumni from backend. Using local fallbacks.', error);
+        console.error('[Fetch Error] Failed to load alumni from backend. Error details:', error);
+        console.log('[Fetch Fallback] Using local fallback alumni data instead.');
         allAlumniData = fallbackAlumni;
         populateFilterDropdowns();
         renderAlumniList(true);
@@ -997,7 +1001,7 @@
               <div class="alumni-job">${escapeHTML(alumni.designation)}</div>
               <div class="alumni-company">
                 <span class="company-icon">🏢</span>
-                <span class="company-name">${escapeHTML(alumni.company)}</span>
+                <span class="company-name">${escapeHTML(alumni.company) || 'N/A'}</span>
               </div>
             </div>
           </div>
@@ -1113,6 +1117,7 @@
     alumniRegisterForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
+      console.log('[Form Submission] Starting registration form submission...');
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
       formAlert.style.display = 'none';
@@ -1122,15 +1127,31 @@
         formData.set('department', formData.get('other_department'));
       }
 
+      console.log('[Form Submission] Form Data preview:', {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        mobile_number: formData.get('mobile_number'),
+        department: formData.get('department'),
+        graduation_year: formData.get('graduation_year'),
+        designation: formData.get('designation'),
+        company: formData.get('company'),
+        imageName: formData.get('image')?.name
+      });
+
       try {
-        const response = await fetch(`${API_BASE_URL}/api/alumni/register`, {
+        const targetUrl = `${API_BASE_URL}/api/alumni/register`;
+        console.log(`[Form Submission] Sending POST request to: ${targetUrl}`);
+        const response = await fetch(targetUrl, {
           method: 'POST',
           body: formData
         });
 
+        console.log(`[Form Submission] Response status received: ${response.status} (${response.statusText})`);
         const result = await response.json();
+        console.log('[Form Submission] Response JSON parsed:', result);
         
         if (response.ok && result.success) {
+          console.log('[Form Submission] Registration succeeded!');
           alumniRegisterForm.reset();
           otherDeptGroup.style.display = 'none';
           otherDeptInput.required = false;
@@ -1140,6 +1161,7 @@
           throw new Error(result.message || 'Something went wrong during submission.');
         }
       } catch (error) {
+        console.error('[Form Submission Error] Registration failed. Error details:', error);
         formAlert.className = 'status-alert error';
         formAlert.textContent = error.message || `Could not connect to backend server. Make sure the Python server is running at ${API_BASE_URL}.`;
       } finally {
