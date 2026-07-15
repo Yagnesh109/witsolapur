@@ -3,7 +3,7 @@ const DEPT_TITLES = {
   ce: "Civil Engineering",
   entc: "Electronics & Telecommunication",
   ecs: "Electronics & Computer Engineering",
-  me: "Mechanical Engineering",
+  me: "Mechanical and Automation Engineering",
   it: "Information Technology",
   aiml: "Artificial Intelligence & Machine Learning",
   ge: "General Engineering"
@@ -36,6 +36,9 @@ function buildSidebarMarkup(title) {
     linksList = linksList.filter((item) =>
       item.section === "hod-desk" ||
       item.section === "about-department" ||
+      item.section === "vision-mission" ||
+      item.section === "po-pso-peo" ||
+      item.section === "faculty" ||
       item.section === "syllabus"
     );
   }
@@ -48,12 +51,20 @@ function buildSidebarMarkup(title) {
   if (dept === "entc" || dept === "ecs" || dept === "ge") {
     linksList.push({ label: "Activities", emoji: "🏃", section: "activities" });
   }
-  const links = linksList.map((item) => `
-    <a href="#${item.section}" class="dept-sidebar__link sidebar-link" data-section="${item.section}">
-      <span class="dept-sidebar__emoji" aria-hidden="true">${item.emoji}</span>
-      <span class="dept-sidebar__label">${item.label}</span>
-    </a>
-  `).join("");
+  if (dept === "me") {
+    linksList.push({ label: "Eminent Alumni", emoji: "🎓", section: "../../assets/documents/alumni/me/Eminent%20Alumni_Mech_Dept%20(1).pdf" });
+  }
+  const links = linksList.map((item) => {
+    const isPdf = item.section.endsWith('.pdf');
+    const href = isPdf ? item.section : `#${item.section}`;
+    const targetAttr = isPdf ? ' target="_blank" rel="noopener"' : '';
+    return `
+      <a href="${href}" class="dept-sidebar__link sidebar-link" data-section="${item.section}"${targetAttr}>
+        <span class="dept-sidebar__emoji" aria-hidden="true">${item.emoji}</span>
+        <span class="dept-sidebar__label">${item.label}</span>
+      </a>
+    `;
+  }).join("");
 
   return `
     <aside class="dept-sidebar" id="deptSidebar" aria-label="${title} navigation">

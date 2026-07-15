@@ -54,7 +54,7 @@ if (navList) {
       campusLi.after(placementLi);
 
       const alumniLi = document.createElement("li");
-      alumniLi.innerHTML = `<a class="nav-link" href="${rootPrefix}pages/coming-soon.html?dept=alumni">Alumni</a>`;
+      alumniLi.innerHTML = `<a class="nav-link" href="${rootPrefix}pages/alumni.html">Alumni</a>`;
       placementLi.after(alumniLi);
     }
   }
@@ -69,17 +69,18 @@ if (navList) {
       importantLinksLi.innerHTML = `<button class="nav-link menu-trigger" type="button" data-menu="important_links">Important Links</button>`;
       contactLi.before(importantLinksLi);
     }
+    contactLi.innerHTML = `<a class="nav-link" href="${rootPrefix}pages/contact.html">Contact</a>`;
   }
 }
 
 const branchTitles = {
-  cse: "Computer Science & Engineering",
+  cse: "Computer Science and Engineering",
   it: "Information Technology",
-  me: "Mechanical Engineering",
+  me: "Mechanical and Automation Engineering",
   ce: "Civil Engineering",
-  entc: "Electronics & Telecommunication",
-  ecs: "Electronics & Computer Engineering",
-  aiml: "Artificial Intelligence & Machine Learning",
+  entc: "Electronics and Telecommunication Engineering",
+  ecs: "Electronics and Computer Engineering",
+  aiml: "Artificial Intelligence and Machine Learning",
   ge: "General Engineering"
 };
 
@@ -122,6 +123,7 @@ const menus = {
       ["Institute", [
         ["Institute Information", "assets/documents/about_institute/Institute-Information.pdf"],
         ["Vision & Mission", "pages/about/vision-mission.html"],
+        ["Why Choose WIT", "pages/about/why-choose-wit.html"],
         ["Goals & Quality", "pages/about/goals-quality.html"],
         ["Core Values", "pages/about/core-values.html"],
         ["Organization Chart", "assets/documents/about_institute/Organization-Structure-of-WIT.pdf"],
@@ -150,14 +152,14 @@ const menus = {
         ["Best Practices", "#academics-bestpractices"]
       ]],
       ["Departments", [
-        ["Artificial Intelligence & Machine Learning", "aiml"],
+        ["Artificial Intelligence and Machine Learning", "aiml"],
         ["Civil Engineering", "ce"],
-        ["Computer Science & Engineering", "cse"],
-        ["Electronics & Computer Engineering", "ecs"],
-        ["Electronics & Telecommunication", "entc"],
+        ["Computer Science and Engineering", "cse"],
+        ["Electronics and Computer Engineering", "ecs"],
+        ["Electronics and Telecommunication Engineering", "entc"],
         ["General Engineering", "ge"],
         ["Information Technology", "it"],
-        ["Mechanical Engineering", "me"]
+        ["Mechanical and Automation Engineering", "me"]
       ]]
     ]
   },
@@ -246,7 +248,7 @@ const menus = {
   },
   important_links: {
     label: "Important Links",
-    headline: "Statutory committees, strategic planning, UGC compliance, and statement of accounts.",
+    headline: "Statutory committees, compliance disclosures, online grievance, tenders, and scholarship schemes.",
     groups: [
       ["Statutory Committees", [
         ["Anti-Ragging Committee", "assets/documents/importan_links/ANTI-RAGGING-COMMITTEE.pdf"],
@@ -260,15 +262,18 @@ const menus = {
         ["Strategic Management", "assets/documents/importan_links/Strategic-Management.pdf"],
         ["Undertaking Submitted to UGC regarding Compliance of Guidelines", "assets/documents/importan_links/Undertaking-Compliance-of-Guidelines-of-UGC.pdf"],
         ["Observance of Partition Horrors Remembrance Day", "assets/documents/importan_links/Partition-rembrance-day.pdf"],
-        ["Statement of Accounts", "pages/about/statement-of-accounts.html"]
+        ["Statement of Accounts", "pages/about/statement-of-accounts.html"],
+        ["Online Grievance", "https://docs.google.com/forms/d/e/1FAIpQLSea-zVWwqoxxh4sZrd67AK0Umcwk68JSsDWXnsUkXjeUVPPEQ/viewform"],
+        ["Tenders", "pages/tenders.html"],
+        ["AICTE Scholarship Schemes", "https://www.aicte.gov.in/schemes/students-development-schemes"]
       ]]
     ]
   },
   contact: {
     label: "Contact",
-    headline: "Contact, grievance, tenders, important links, and scholarship schemes.",
+    headline: "Contact us and locate our campus.",
     groups: [
-      ["Connect", [["Contact Us", "pages/contact.html"], ["Online Grievance", "https://docs.google.com/forms/d/e/1FAIpQLSea-zVWwqoxxh4sZrd67AK0Umcwk68JSsDWXnsUkXjeUVPPEQ/viewform"], ["Tenders", "pages/tenders.html"], ["AICTE Scholarship Schemes", "https://www.aicte.gov.in/schemes/students-development-schemes"]]]
+      ["Connect", [["Contact Us", "pages/contact.html"]]]
     ]
   }
 };
@@ -605,9 +610,26 @@ document.addEventListener("mouseover", (event) => {
 
   const link = event.target.closest("a");
   if (link) {
-    const href = link.getAttribute("href");
-    if (href && href.startsWith("#academics-")) {
-      switchAcademicsSubtab(href, link);
+    const megaGroup = link.closest(".mega-group");
+    const megaGroups = link.closest(".mega-groups");
+    const isAcademicsFirstGroup = megaGroups && 
+                                  megaGroup === megaGroups.children[0] && 
+                                  megaGroup.querySelector("h4")?.textContent === "Academic Links";
+
+    if (isAcademicsFirstGroup) {
+      const href = link.getAttribute("href");
+      if (href && href.startsWith("#academics-")) {
+        switchAcademicsSubtab(href, link);
+      } else {
+        // Clear right-side content when hovering over a link with no sub-options
+        megaGroup.querySelectorAll("a").forEach(a => a.classList.remove("subtab-active"));
+        link.classList.add("subtab-active");
+        
+        const rightGroup = megaGroups.children[1];
+        if (rightGroup) {
+          rightGroup.innerHTML = "";
+        }
+      }
     }
   }
 });
@@ -700,36 +722,68 @@ function startHeroAnimation() {
 setupRevealAnimations();
 initHomeMarquees();
 
-function setupFirstVisitPopup() {
-  const modal = document.querySelector("#firstVisitModal");
-  const closeBtn = document.querySelector("#firstVisitClose");
+function setupAdmissionsPanel() {
+  const panel = document.querySelector("#admissionsPanel");
+  const tab = document.querySelector("#admissionsTab");
+  const closeBtn = document.querySelector("#admissionsPanelClose");
+  const overlay = document.querySelector("#admissionsPanelOverlay");
 
-  if (!modal || !closeBtn) {
+  if (!panel || !tab || !closeBtn) {
     startHeroAnimation();
     return;
   }
 
-  window.addEventListener("load", () => {
-    modal.hidden = false;
-    document.body.classList.add("modal-open");
-  });
+  function openPanel() {
+    panel.classList.add("open");
+    panel.setAttribute("aria-hidden", "false");
+    if (overlay) {
+      overlay.removeAttribute("hidden");
+      requestAnimationFrame(() => {
+        overlay.classList.add("open");
+      });
+    }
+    document.body.classList.add("panel-open");
+  }
 
-  function closeModal() {
-    modal.hidden = true;
-    document.body.classList.remove("modal-open");
+  function closePanel() {
+    panel.classList.remove("open");
+    panel.setAttribute("aria-hidden", "true");
+    if (overlay) {
+      overlay.classList.remove("open");
+      setTimeout(() => {
+        if (!panel.classList.contains("open")) {
+          overlay.setAttribute("hidden", "");
+        }
+      }, 400);
+    }
+    document.body.classList.remove("panel-open");
     startHeroAnimation();
   }
 
-  closeBtn.addEventListener("click", closeModal);
-  modal.addEventListener("click", (event) => {
-    if (event.target === modal) closeModal();
+  window.addEventListener("load", () => {
+    startHeroAnimation();
   });
+
+  tab.addEventListener("click", () => {
+    if (panel.classList.contains("open")) {
+      closePanel();
+    } else {
+      openPanel();
+    }
+  });
+
+  closeBtn.addEventListener("click", closePanel);
+  if (overlay) {
+    overlay.addEventListener("click", closePanel);
+  }
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !modal.hidden) closeModal();
+    if (event.key === "Escape" && panel.classList.contains("open")) {
+      closePanel();
+    }
   });
 }
 
-setupFirstVisitPopup();
+setupAdmissionsPanel();
 
 // Slideshow Controller
 function initSlideshow() {

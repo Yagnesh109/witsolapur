@@ -329,9 +329,9 @@
           const pdfPath = `../../assets/documents/academics/examination/timetables/${sessionKey}/${item.file}`;
           const tr = document.createElement("tr");
           tr.innerHTML = `
-            <td style="width: 10%; text-align: center; font-weight: 600;">${index + 1}</td>
+            <td style="width: 10%; text-align: left; font-weight: 600;">${index + 1}</td>
             <td style="width: 65%; font-weight: 500;">${item.label}</td>
-            <td style="width: 25%; text-align: center;">
+            <td style="width: 25%; text-align: left;">
               <a href="${pdfPath}" target="_blank" rel="noopener" style="color: var(--secondary-royal); font-weight: 600; text-decoration: none;">View Details</a>
             </td>
           `;

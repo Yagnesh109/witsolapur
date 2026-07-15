@@ -14,6 +14,26 @@
     .coming-soon-title{font-size:clamp(28px,4vw,42px);margin:18px 0 6px;color:var(--navy-950)}
     .coming-soon-sub{color:#4b5966;margin-bottom:18px}
     .back-home{display:inline-block;margin-top:18px;padding:10px 16px;border-radius:10px;background:#08294b;color:#fff;text-decoration:none}
+    
+    /* Navbar styling overrides for coming-soon pages */
+    .site-header--dept {
+      background: var(--white, #ffffff) !important;
+      border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+      box-shadow: var(--shadow, 0 4px 12px rgba(0, 0, 0, 0.05));
+    }
+    .site-header--dept .navbar {
+      background: var(--white, #ffffff) !important;
+    }
+    .site-header--dept .nav-link {
+      color: #000000 !important;
+    }
+    .site-header--dept .nav-link:hover,
+    .site-header--dept .nav-link.active {
+      color: var(--sky-primary, #38bdf8) !important;
+    }
+    .site-header--dept .menu-toggle span {
+      background: #000000 !important;
+    }
   </style>
 </head>
 <body class="dept-coming-soon">
@@ -53,7 +73,7 @@
     const dept = params.get('dept') || '';
     const mapping = {
       'IT':'Information Technology',
-      'ME':'Mechanical Engineering',
+      'ME':'Mechanical and Automation Engineering',
       'CE':'Civil Engineering',
       'ENTC':'Electronics & Telecommunication',
       'AIML':'Artificial Intelligence & Machine Learning',

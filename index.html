@@ -116,26 +116,31 @@
   </aside>
   <div class="announcement-backdrop" id="announcementBackdrop" hidden></div>
 
-  <div class="first-visit-modal" id="firstVisitModal" hidden>
-    <div class="first-visit-backdrop"></div>
-    <div class="first-visit-card">
-      <button class="first-visit-close" id="firstVisitClose" type="button" aria-label="Close popup">✕</button>
-      <h2 class="first-visit-heading">2026-27 Admission</h2>
-      <figure class="first-visit-figure">
-        <img src="assets/images/campus/campus-bg.png" alt="WIT campus view">
+  <!-- Admissions Sliding Side Panel -->
+  <div class="admissions-panel" id="admissionsPanel" aria-hidden="true">
+    <button class="admissions-tab" id="admissionsTab" type="button" aria-label="Toggle Admissions Panel">
+      Admissions
+    </button>
+    <div class="admissions-panel-content">
+      <button class="admissions-panel-close" id="admissionsPanelClose" type="button" aria-label="Close admissions panel">✕</button>
+      <h2 class="admissions-panel-heading">2026-27 Admission</h2>
+      <figure class="admissions-panel-figure">
+        <img src="assets/images/campus/campus-bg.webp" alt="WIT campus view">
       </figure>
-      <div class="first-visit-actions">
-        <a class="first-visit-action first-visit-action--primary" href="pages/admissions/first-year.html">
+      <div class="admissions-panel-actions">
+        <a class="admissions-panel-action admissions-panel-action--primary" href="https://docs.google.com/forms/d/e/1FAIpQLSevzcvhKhDofGD0NIkml0wrZBPNnj_vrmRt8ZgHa3zK795UZg/viewform?pli=1">
           Admission
         </a>
       </div>
-      <div class="first-visit-contact">
+      <div class="admissions-panel-contact">
         <p>For more details contact:</p>
         <p><strong>Call Us:</strong> 758 857 1100 | 758 858 1100</p>
         <p><strong>Email Us:</strong> <a href="mailto:admissions@witsolapur.org">admissions@witsolapur.org</a></p>
       </div>
     </div>
   </div>
+  <div class="admissions-panel-overlay" id="admissionsPanelOverlay" hidden></div>
+
 
   <main>
     <section class="hero" id="home">
@@ -260,8 +265,8 @@
 
       <div class="department-grid">
         <a class="department-card reveal" href="pages/departments/aiml.html">
-          <img src="assets/images/departments/AIML.png" alt="Artificial Intelligence & Machine Learning">
-          <h3>Artificial Intelligence & Machine Learning</h3>
+          <img src="assets/images/departments/AIML.png" alt="Artificial Intelligence and Machine Learning">
+          <h3>Artificial Intelligence and Machine Learning</h3>
           <p>Machine learning, data intelligence, neural systems, and applied AI solutions.</p>
         </a>
         <a class="department-card reveal" href="pages/departments/ce.html">
@@ -271,17 +276,17 @@
         </a>
         <a class="department-card reveal" href="pages/departments/cse.html">
           <img src="assets/images/departments/CSE.jpg" alt="Computer Science and Engineering">
-          <h3>Computer Science & Engineering</h3>
+          <h3>Computer Science and Engineering</h3>
           <p>Software engineering, data, AI, cloud platforms, and secure computing.</p>
         </a>
         <a class="department-card reveal" href="pages/departments/ecs.html">
           <img src="assets/images/departments/ECS.jpg" alt="Electronics and Computer Engineering">
-          <h3>Electronics & Computer Engineering</h3>
+          <h3>Electronics and Computer Engineering</h3>
           <p>Embedded intelligence, circuits, hardware systems, and automation.</p>
         </a>
          <a class="department-card reveal" href="pages/departments/entc.html">
-          <img src="assets/images/departments/ENTC.jpg" alt="Electronics and Telecommunication">
-          <h3>Electronics & Telecommunication</h3>
+          <img src="assets/images/departments/ENTC.jpg" alt="Electronics and Telecommunication Engineering">
+          <h3>Electronics and Telecommunication Engineering</h3>
           <p>Communication systems, VLSI, signal processing, and connected technologies.</p>
         </a>
         <a class="department-card reveal" href="pages/departments/it.html">
@@ -290,40 +295,14 @@
           <p>Applications, networks, databases, cybersecurity, and digital systems.</p>
         </a>
         <a class="department-card reveal" href="pages/departments/me.html">
-          <img src="assets/images/departments/ME.jpg" alt="Mechanical Engineering">
-          <h3>Mechanical Engineering</h3>
+          <img src="assets/images/departments/ME.jpg" alt="Mechanical and Automation Engineering">
+          <h3>Mechanical and Automation Engineering</h3>
           <p>Design, robotics, production, machines, and intelligent manufacturing.</p>
         </a>
       </div>
     </section>
 
-    <section class="section why-wit-section reveal">
-      <div class="why-wit-inner">
-        <div class="section-heading reveal">
-          <p class="kicker">Why choose WIT, Solapur?</p>
-          <h2>Walchand Institute of Technology, one of the pioneering self financed institutions in engineering
-            education & research, was established in 1983 by SAPDJ Pathshala's Trust (Estb. 1885).</h2>
-        </div>
 
-        <div class="why-wit-grid">
-          <article class="why-wit-card reveal">
-            <h3>Learn from highly experienced faculty</h3>
-            <p>Our faculty are selected on the basis of proven success and expertise. They are among the best in their
-              respective fields. You will learn from a multinational community of recognized scholars and experts.</p>
-          </article>
-          <article class="why-wit-card reveal">
-            <h3>Equip yourself with the skills recruiters demand</h3>
-            <p>Our enhanced curriculum imparts cutting-edge skills to help students fast-track their career growth in
-              today’s environment. Develop crucial skills like creativity, innovation, and decision-making.</p>
-          </article>
-          <article class="why-wit-card reveal">
-            <h3>Benefit from strong career advancement support</h3>
-            <p>Whether you’re looking to advance your career in India or abroad, our Professional Readiness Program and
-              career services support your next step.</p>
-          </article>
-        </div>
-      </div>
-    </section>
 
     <section class="section companies-section">
       <div class="companies-inner">
