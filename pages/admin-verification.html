@@ -693,8 +693,12 @@
       if (savedPasscode) {
         adminPasscode = savedPasscode;
         lockScreen.classList.add('hidden');
-        document.getElementById('exportBtn').style.display = 'inline-flex';
+        const exportBtn = document.getElementById('exportBtn');
+        if (exportBtn) exportBtn.style.display = 'inline-flex';
+        loadAdminDashboard();
       }
+    }
+
     async function attemptUnlock() {
       const code = passcodeInput.value;
       if (!code) return;
@@ -717,7 +721,8 @@
           sessionStorage.setItem('admin_passcode', code);
           lockScreen.classList.add('hidden');
           showToast('Passcode Verified!');
-          document.getElementById('exportBtn').style.display = 'inline-flex';
+          const exportBtn = document.getElementById('exportBtn');
+          if (exportBtn) exportBtn.style.display = 'inline-flex';
           loadAdminDashboard();
         } else {
           throw new Error('Invalid passcode');
@@ -741,7 +746,8 @@
       sessionStorage.removeItem('admin_passcode');
       adminPasscode = '';
       lockScreen.classList.remove('hidden');
-      document.getElementById('exportBtn').style.display = 'none';
+      const exportBtn = document.getElementById('exportBtn');
+      if (exportBtn) exportBtn.style.display = 'none';
       passcodeInput.focus();
     });
 
@@ -1045,9 +1051,11 @@
 
     // --- Export Event Listener ---
     const exportBtn = document.getElementById('exportBtn');
-    exportBtn.addEventListener('click', () => {
-      window.location.href = `${API_BASE_URL}/api/admin/alumni/export?passcode=${encodeURIComponent(adminPasscode)}`;
-    });
+    if (exportBtn) {
+      exportBtn.addEventListener('click', () => {
+        window.location.href = `${API_BASE_URL}/api/admin/alumni/export?passcode=${encodeURIComponent(adminPasscode)}`;
+      });
+    }
 
     // Run Auth checks on load
     checkSessionAuth();
