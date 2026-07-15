@@ -1141,7 +1141,7 @@
         }
       } catch (error) {
         formAlert.className = 'status-alert error';
-        formAlert.textContent = error.message || 'Could not connect to backend server. Make sure the Python server is running.';
+        formAlert.textContent = error.message || `Could not connect to backend server. Make sure the Python server is running at ${API_BASE_URL}.`;
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Registration';
