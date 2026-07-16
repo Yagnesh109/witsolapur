@@ -123,7 +123,6 @@ const menus = {
       ["Institute", [
         ["Institute Information", "assets/documents/about_institute/Institute-Information.pdf"],
         ["Vision & Mission", "pages/about/vision-mission.html"],
-        ["Why Choose WIT", "pages/about/why-choose-wit.html"],
         ["Goals & Quality", "pages/about/goals-quality.html"],
         ["Core Values", "pages/about/core-values.html"],
         ["Organization Chart", "assets/documents/about_institute/Organization-Structure-of-WIT.pdf"],
