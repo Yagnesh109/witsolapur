@@ -39,6 +39,9 @@ $method = $_SERVER['REQUEST_METHOD'];
 // Helper: Respond with JSON and exit
 function json_response($data, $status_code = 200) {
     header('Content-Type: application/json; charset=utf-8');
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Cache-Control: post-check=0, pre-check=0', false);
+    header('Pragma: no-cache');
     http_response_code($status_code);
     echo json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     exit;
@@ -556,5 +559,39 @@ if ($method === 'GET' && preg_match('#/api/admin/alumni/export$#', $path)) {
     }
 }
 
-// 9. Route Not Found
+// 9. Public: Get & Increment Visitor Count (GET /api/visitor-count)
+if ($method === 'GET' && preg_match('#/api/visitor-count$#', $path)) {
+    $counter_file = __DIR__ . '/visitor_count.txt';
+    if (!file_exists($counter_file)) {
+        file_put_contents($counter_file, '100'); // Baseline value
+    }
+    
+    $db_handle = fopen($counter_file, 'c+');
+    if ($db_handle) {
+        flock($db_handle, LOCK_EX);
+        $size = filesize($counter_file);
+        $count = $size > 0 ? intval(fread($db_handle, $size)) : 100;
+        
+        // Prevent refresh double counting using a cookie (valid for 24 hours)
+        if (!isset($_COOKIE['wit_visited'])) {
+            $count++;
+            ftruncate($db_handle, 0);
+            rewind($db_handle);
+            fwrite($db_handle, strval($count));
+            fflush($db_handle);
+            
+            // Set cookie for 24 hours
+            setcookie('wit_visited', '1', time() + 86400, '/');
+        }
+        
+        flock($db_handle, LOCK_UN);
+        fclose($db_handle);
+        json_response(['success' => true, 'count' => $count]);
+    } else {
+        json_response(['success' => false, 'message' => 'Failed to access visitor counter.'], 500);
+    }
+}
+
+// 10. Route Not Found
 json_response(['success' => false, 'message' => 'API route not found: ' . $path], 404);
+

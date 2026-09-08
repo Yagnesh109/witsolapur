@@ -601,6 +601,7 @@ body.panel-open {
   gap: 12px;
   flex-shrink: 0;
   color: var(--white);
+  
 }
 
 .brand img {
@@ -609,6 +610,8 @@ body.panel-open {
   object-fit: contain;
   object-position: left center;
   transition: height 240ms ease;
+  border-radius: 10%;
+  margin-left: 10px;
 }
 
 .site-header.scrolled .brand img {

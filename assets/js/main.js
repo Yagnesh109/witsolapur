@@ -69,6 +69,11 @@ if (navList) {
       importantLinksLi.innerHTML = `<button class="nav-link menu-trigger" type="button" data-menu="important_links">Important Links</button>`;
       contactLi.before(importantLinksLi);
     }
+    if (!navList.querySelector('[href*="career.html"]')) {
+      const careerLi = document.createElement("li");
+      careerLi.innerHTML = `<a class="nav-link" href="${rootPrefix}pages/career.html">Career</a>`;
+      contactLi.before(careerLi);
+    }
     contactLi.innerHTML = `<a class="nav-link" href="${rootPrefix}pages/contact.html">Contact</a>`;
   }
 }
@@ -217,9 +222,9 @@ const menus = {
   },
   campus: {
     label: "Campus Life",
-    headline: "Events, clubs, WITchar, e-store, and career opportunities.",
+    headline: "Events, clubs, WITchar, and e-store.",
     groups: [
-      ["Life at WIT", [["Events", "pages/gallery.html"], ["WITchar 2k27", "pages/coming-soon.html?dept=witchar"], ["WIT E-Store", "https://www.printvenue.com/collections/cs-wit"], ["Career", "pages/career.html"]]],
+      ["Life at WIT", [["Events", "pages/gallery.html"], ["WITchar 2k27", "pages/coming-soon.html?dept=witchar"], ["WIT E-Store", "https://www.printvenue.com/collections/cs-wit"]]],
       ["Clubs", [
         ["Art Club", "pages/art-club.html"],
         ["Google Developers Group", "https://gdg.community.dev/gdg-on-campus-walchand-institute-of-technology-solapur-india/"],
@@ -887,25 +892,34 @@ if (document.querySelector(".slideshow-container")) {
 }
 
 function initVisitorCounter() {
-  const baseCount = 1;
-  let currentCount = localStorage.getItem("wit_visitor_count");
-
-  if (!currentCount) {
-    currentCount = baseCount;
+  let backendUrl = 'https://witsolapur.org/backend';
+  if (typeof API_BASE_URL !== 'undefined') {
+    backendUrl = API_BASE_URL;
+  } else if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    backendUrl = 'http://localhost:5000';
   } else {
-    currentCount = parseInt(currentCount, 10);
-    if (isNaN(currentCount)) {
-      currentCount = baseCount;
-    }
+    backendUrl = window.location.origin + '/backend';
   }
 
-  // Increment by exactly 1 on page load
-  currentCount += 1;
+  fetch(`${backendUrl}/api/visitor-count?_=${Date.now()}`)
+    .then((response) => {
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.json();
+    })
+    .then((data) => {
+      if (data && data.success) {
+        updateFooterCount(data.count);
+      }
+    })
+    .catch((error) => {
+      console.warn("Visitor counter API error:", error);
+      // Fallback: use local storage if API is offline
+      let localCount = localStorage.getItem("wit_visitor_count") || "100";
+      updateFooterCount(localCount);
+    });
+}
 
-  // Save back to localStorage
-  localStorage.setItem("wit_visitor_count", currentCount);
-
-  // Find all footers in the DOM
+function updateFooterCount(count) {
   const footers = document.querySelectorAll(".footer");
   footers.forEach((footer) => {
     let counterEl = footer.querySelector("#visitorCount");
@@ -927,7 +941,7 @@ function initVisitorCounter() {
     }
     
     if (counterEl) {
-      counterEl.textContent = currentCount;
+      counterEl.textContent = count;
     }
   });
 }

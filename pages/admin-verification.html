@@ -131,6 +131,45 @@
       gap: 24px;
       margin-bottom: 40px;
     }
+    .admin-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-left: auto;
+      width: min(100%, 420px);
+      position: relative;
+    }
+    .admin-search-icon {
+      position: absolute;
+      left: 14px;
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .admin-search {
+      width: 100%;
+      padding: 12px 16px 12px 42px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      background: var(--white);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .admin-search:focus {
+      outline: none;
+      border-color: var(--secondary-royal);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    .section-header.with-search {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
     .stat-card {
       background: var(--white);
       border: 1px solid var(--border-color);
@@ -507,8 +546,15 @@
 
     <!-- Pending Submissions Section -->
     <section class="dashboard-section" style="margin-bottom: 48px;">
-      <div class="section-header" style="margin-bottom: 20px;">
+      <div class="section-header with-search" style="margin-bottom: 20px;">
         <h2 style="font-size: 1.5rem; color: var(--secondary-deep); font-weight: 800; margin: 0;">⏳ Pending Submissions</h2>
+        <div class="admin-toolbar" aria-label="Search all pending and approved alumni">
+          <svg class="admin-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input type="search" id="adminAlumniSearch" class="admin-search" placeholder="Search all alumni">
+        </div>
       </div>
       <div class="table-responsive">
         <table class="about-table">
@@ -667,7 +713,7 @@
     // Set current year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    const API_BASE_URL = 'http://localhost:5000';
+    const API_BASE_URL = 'https://witsolapur.org/backend';
     //const API_BASE_URL='https://witsolapur-q550.onrender.com';
     let adminPasscode = '';
 
@@ -681,6 +727,8 @@
     const logoutBtn = document.getElementById('logoutBtn');
     const zoomOverlay = document.getElementById('zoomOverlay');
     const zoomedImage = document.getElementById('zoomedImage');
+    const adminAlumniSearch = document.getElementById('adminAlumniSearch');
+    let allAdminRecords = [];
     
     // Stats elements
     const statTotal = document.getElementById('statTotal');
@@ -785,7 +833,7 @@
       renderTableSkeletons();
 
       try {
-        const response = await fetch(`${API_BASE_URL}/api/admin/alumni`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/alumni?_=${Date.now()}`, {
           headers: { 'X-Admin-Passcode': adminPasscode }
         });
 
@@ -801,7 +849,8 @@
 
         const data = await response.json();
         console.log(`[Admin Fetch] Successfully loaded ${data.length} records.`);
-        renderAdminDashboard(data);
+        allAdminRecords = data;
+        renderAdminDashboard(allAdminRecords);
       } catch (error) {
         console.error('[Admin Fetch Error] Failed to load dashboard. Error details:', error);
         const errorHtml = `
@@ -833,8 +882,27 @@
       statPending.textContent = pendingCount;
       statApproved.textContent = approvedCount;
 
-      const pendingList = records.filter(r => (r.status || 'Pending') === 'Pending');
-      const approvedList = records.filter(r => r.status === 'Approved');
+      const searchValue = (adminAlumniSearch.value || '').trim().toLowerCase();
+      const visibleRecords = searchValue
+        ? records.filter(recordMatchesSearch)
+        : records;
+      const pendingList = visibleRecords.filter(r => (r.status || 'Pending') === 'Pending');
+      const approvedList = visibleRecords.filter(r => r.status === 'Approved');
+
+      function recordMatchesSearch(alumni) {
+        const searchable = [
+          alumni.name,
+          alumni.email,
+          alumni.mobile_number,
+          alumni.department,
+          alumni.graduation_year,
+          alumni.designation,
+          alumni.company,
+          alumni.status
+        ].filter(Boolean).join(' ').toLowerCase();
+
+        return searchable.includes(searchValue);
+      }
 
       function createRow(alumni, isApproved) {
         const tr = document.createElement('tr');
@@ -924,6 +992,7 @@
           <tr>
             <td colspan="7" class="empty-state">
               <p>No pending submissions to verify.</p>
+              ${searchValue ? '<p style="font-size:0.9rem; margin-top:8px;">No pending records match your search.</p>' : ''}
             </td>
           </tr>
         `;
@@ -939,6 +1008,7 @@
           <tr>
             <td colspan="7" class="empty-state">
               <p>No approved alumni profiles in the directory.</p>
+              ${searchValue ? '<p style="font-size:0.9rem; margin-top:8px;">No approved records match your search.</p>' : ''}
             </td>
           </tr>
         `;
@@ -948,6 +1018,10 @@
         });
       }
     }
+
+    adminAlumniSearch.addEventListener('input', () => {
+      renderAdminDashboard(allAdminRecords);
+    });
 
     // --- Action Operations ---
     async function approveAlumnus(id) {

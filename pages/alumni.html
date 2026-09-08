@@ -162,6 +162,14 @@
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
       background: var(--white);
     }
+    .phone-input-group {
+      display: grid;
+      grid-template-columns: 84px minmax(0, 1fr);
+      gap: 10px;
+    }
+    .phone-input-group .country-code-select {
+      padding-right: 10px;
+    }
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -171,6 +179,63 @@
       .form-row {
         grid-template-columns: 1fr;
       }
+      .phone-input-group {
+        grid-template-columns: 84px minmax(0, 1fr);
+      }
+    }
+    .image-preview-wrap {
+      display: none;
+      margin-top: 12px;
+      align-items: center;
+      gap: 12px;
+    }
+    .image-preview-wrap.active {
+      display: flex;
+    }
+    .image-preview-frame {
+      position: relative;
+      width: 88px;
+      height: 110px;
+      flex: 0 0 auto;
+    }
+    .image-preview {
+      width: 88px;
+      height: 110px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border-color);
+      object-fit: cover;
+      object-position: center top;
+      background: var(--bg-alt);
+      box-shadow: 0 6px 16px rgba(15, 76, 129, 0.08);
+    }
+    .image-preview-remove {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      background: #fff;
+      color: #EF4444;
+      font-size: 1rem;
+      line-height: 1;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(15, 76, 129, 0.18);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .image-preview-remove:hover {
+      background: #FEE2E2;
+      border-color: #FCA5A5;
+    }
+    .image-preview-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      word-break: break-word;
     }
     .form-submit-btn {
       width: 100%;
@@ -672,7 +737,10 @@
           </div>
           <div class="form-group">
             <label for="mobile_number">Mobile Number</label>
-            <input type="tel" id="mobile_number" name="mobile_number" class="form-control" placeholder="e.g. 9876543210" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" required>
+            <div class="phone-input-group">
+              <select id="country_code" class="form-control country-code-select" aria-label="Country code" required></select>
+              <input type="tel" id="mobile_number" name="mobile_number" class="form-control" placeholder="e.g. 9876543210" pattern="[+\s()0-9-]{6,24}" title="Please enter a valid phone number" required>
+            </div>
           </div>
         </div>
 
@@ -681,19 +749,20 @@
             <label for="department">Department</label>
             <select id="department" name="department" class="form-control" required>
               <option value="" disabled selected>Select Department</option>
-              <option value="Computer Science and Engineering">Computer Science & Engg</option>
-              <option value="Information Technology">Information Technology</option>
-              <option value="Mechanical and Automation Engineering">Mechanical & Automation</option>
-              <option value="Civil Engineering">Civil Engineering</option>
-              <option value="Electronics and Telecommunication">Electronics & Telecom</option>
-              <option value="Electronics and Computer Engineering">Electronics & Computer</option>
               <option value="Artificial Intelligence and Machine Learning">AI & ML</option>
-              <option value="Other">Other / Enter Manually</option>
+              <option value="Civil Engineering">Civil Engineering</option>
+              <option value="Computer Science and Engineering">Computer Science & Engineering</option>
+              <option value="Computer Technology ">Computer Technology</option>
+              <option value="Construction Technology">Construction Technology</option>
+              <option value="Electronics & Computer ">Electronics & Computer</option>
+              <option value="Electronics Engineering">Electronics Engineering</option>
+              <option value="Electronics and Telecommunication">Electronics & Telecommunication</option>
+              <option value="Environmental Engineering">Environmental Engineering</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Industrial Electronics Engineering ">Industrial Electronics Engineering</option>
+              <option value="Mechanical Engineering">Mechanical & Automation</option>
+              <option value="Production Engineering">Production Engineering</option>
             </select>
-            <div id="other_department_group" style="display: none; margin-top: 12px;">
-              <label for="other_department" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; display: block;">Enter Department Name</label>
-              <input type="text" id="other_department" name="other_department" class="form-control" placeholder="e.g. Electrical Engineering">
-            </div>
           </div>
 
           <div class="form-group" style="position: relative;">
@@ -725,7 +794,14 @@
 
         <div class="form-group">
           <label for="image">Professional Profile Photo</label>
-          <input type="file" id="image" name="image" class="form-control" accept="image/*" required style="padding: 8px 12px;">
+          <input type="file" id="image" name="image" class="form-control" accept="image/*" style="padding: 8px 12px;">
+          <div class="image-preview-wrap" id="imagePreviewWrap" aria-live="polite">
+            <div class="image-preview-frame">
+              <img src="" alt="Selected profile photo preview" class="image-preview" id="imagePreview">
+              <button type="button" class="image-preview-remove" id="removeImagePreview" aria-label="Remove selected profile photo">&times;</button>
+            </div>
+            <span class="image-preview-name" id="imagePreviewName"></span>
+          </div>
         </div>
 
         <button type="submit" class="form-submit-btn" id="submitBtn">Submit Registration</button>
@@ -788,8 +864,8 @@
     // Set current year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    const API_BASE_URL = 'http://localhost:5000';
-    //const API_BASE_URL='https://witsolapur-q550.onrender.com';
+    const API_BASE_URL = 'https://witsolapur.org/backend';
+    
     
     // --- Sample Fallback Data if Backend API is offline ---
     const fallbackAlumni = [
@@ -833,23 +909,144 @@
     const thankYouModal = document.getElementById('thankYouModal');
     const closeThankYouModal = document.getElementById('closeThankYouModal');
     const thankYouCloseBtn = document.getElementById('thankYouCloseBtn');
+    const countryCodeSelect = document.getElementById('country_code');
+    const mobileNumberInput = document.getElementById('mobile_number');
+    const imageInput = document.getElementById('image');
+    const imagePreviewWrap = document.getElementById('imagePreviewWrap');
+    const imagePreview = document.getElementById('imagePreview');
+    const imagePreviewName = document.getElementById('imagePreviewName');
+    const removeImagePreview = document.getElementById('removeImagePreview');
+    let imagePreviewObjectUrl = '';
+    let selectedImageFile = null;
+
+    const countryCodes = [
+      { country: 'India', code: '+91' },
+      { country: 'United States', code: '+1' },
+      { country: 'Canada', code: '+1' },
+      { country: 'United Kingdom', code: '+44' },
+      { country: 'United Arab Emirates', code: '+971' },
+      { country: 'Australia', code: '+61' },
+      { country: 'Singapore', code: '+65' },
+      { country: 'Germany', code: '+49' },
+      { country: 'France', code: '+33' },
+      { country: 'Ireland', code: '+353' },
+      { country: 'Netherlands', code: '+31' },
+      { country: 'Sweden', code: '+46' },
+      { country: 'Switzerland', code: '+41' },
+      { country: 'Japan', code: '+81' },
+      { country: 'China', code: '+86' },
+      { country: 'Malaysia', code: '+60' },
+      { country: 'New Zealand', code: '+64' },
+      { country: 'Saudi Arabia', code: '+966' },
+      { country: 'Qatar', code: '+974' },
+      { country: 'Oman', code: '+968' },
+      { country: 'Kuwait', code: '+965' },
+      { country: 'Bahrain', code: '+973' },
+      { country: 'South Africa', code: '+27' },
+      { country: 'Thailand', code: '+66' },
+      { country: 'Indonesia', code: '+62' },
+      { country: 'Philippines', code: '+63' },
+      { country: 'South Korea', code: '+82' },
+      { country: 'Italy', code: '+39' },
+      { country: 'Spain', code: '+34' },
+      { country: 'Other country code', code: 'custom' }
+    ];
+
+    function renderCountryCodeOptions(showFullLabels = false) {
+      const selectedValue = countryCodeSelect.value || '+91';
+      countryCodeSelect.innerHTML = '';
+      countryCodes.forEach(({ country, code }) => {
+        const option = document.createElement('option');
+        option.value = code;
+        option.textContent = showFullLabels
+          ? (code === 'custom' ? country : `${country} (${code})`)
+          : (code === 'custom' ? 'Other' : code);
+        if (code === selectedValue) option.selected = true;
+        countryCodeSelect.appendChild(option);
+      });
+    }
+
+    renderCountryCodeOptions();
+
+    countryCodeSelect.addEventListener('pointerdown', () => {
+      renderCountryCodeOptions(true);
+    });
+
+    countryCodeSelect.addEventListener('keydown', (event) => {
+      if ([' ', 'Enter', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
+        renderCountryCodeOptions(true);
+      }
+    });
+
+    countryCodeSelect.addEventListener('blur', () => {
+      renderCountryCodeOptions();
+    });
+
+    countryCodeSelect.addEventListener('change', () => {
+      const isCustomCode = countryCodeSelect.value === 'custom';
+      mobileNumberInput.placeholder = isCustomCode ? 'e.g. +55 11987654321' : 'e.g. 9876543210';
+      mobileNumberInput.title = isCustomCode ? 'Please enter the full number with country code, e.g. +55 11987654321' : 'Please enter a valid phone number';
+      setTimeout(() => renderCountryCodeOptions(), 0);
+    });
 
     // --- Modal Controls ---
     openRegisterModal.addEventListener('click', () => {
       registerModal.classList.add('active');
       formAlert.style.display = 'none';
       alumniRegisterForm.reset();
+      countryCodeSelect.value = '+91';
+      renderCountryCodeOptions();
+      clearImagePreview();
     });
 
     closeRegisterModal.addEventListener('click', () => {
       registerModal.classList.remove('active');
+      clearImagePreview();
     });
 
     // Close on clicking backdrop
     registerModal.addEventListener('click', (e) => {
       if (e.target === registerModal) {
         registerModal.classList.remove('active');
+        clearImagePreview();
       }
+    });
+
+    function clearImagePreview() {
+      if (imagePreviewObjectUrl) {
+        URL.revokeObjectURL(imagePreviewObjectUrl);
+        imagePreviewObjectUrl = '';
+      }
+      imagePreview.src = '';
+      imagePreviewName.textContent = '';
+      imageInput.value = '';
+      imagePreviewWrap.classList.remove('active');
+      selectedImageFile = null;
+    }
+
+    removeImagePreview.addEventListener('click', () => {
+      clearImagePreview();
+      imageInput.focus();
+    });
+
+    imageInput.addEventListener('change', () => {
+      const file = imageInput.files && imageInput.files[0];
+      clearImagePreview();
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        formAlert.className = 'status-alert error';
+        formAlert.textContent = 'Please upload a valid image file for the profile photo.';
+        imageInput.value = '';
+        return;
+      }
+
+      selectedImageFile = file;
+      imagePreviewObjectUrl = URL.createObjectURL(file);
+      imagePreview.src = imagePreviewObjectUrl;
+      imagePreviewName.textContent = file.name;
+      imagePreviewWrap.classList.add('active');
+      formAlert.style.display = 'none';
     });
 
     // Thank You Modal Controls
@@ -889,7 +1086,7 @@
       console.log(`[Fetch] Attempting to load approved alumni from: ${API_BASE_URL}/api/alumni/approved`);
       renderSkeletons();
       try {
-        const response = await fetch(`${API_BASE_URL}/api/alumni/approved`);
+        const response = await fetch(`${API_BASE_URL}/api/alumni/approved?_=${Date.now()}`);
         console.log(`[Fetch] Response status received: ${response.status} (${response.statusText})`);
         if (!response.ok) throw new Error('API server response not ok');
         
@@ -962,7 +1159,7 @@
       });
 
       // Paginate
-      const itemsPerPage = 8;
+      const itemsPerPage = 20;
       const totalPages = Math.max(1, Math.ceil(filtered.length / itemsPerPage));
       if (currentPage > totalPages) currentPage = totalPages;
       if (currentPage < 1) currentPage = 1;
@@ -1086,23 +1283,6 @@
       );
     }
 
-    // --- Other Department input toggler ---
-    const departmentSelect = document.getElementById('department');
-    const otherDeptGroup = document.getElementById('other_department_group');
-    const otherDeptInput = document.getElementById('other_department');
-
-    departmentSelect.addEventListener('change', () => {
-      if (departmentSelect.value === 'Other') {
-        otherDeptGroup.style.display = 'block';
-        otherDeptInput.required = true;
-        otherDeptInput.focus();
-      } else {
-        otherDeptGroup.style.display = 'none';
-        otherDeptInput.required = false;
-        otherDeptInput.value = '';
-      }
-    });
-
     // --- Filters Event Listeners ---
     document.getElementById('filterDepartment').addEventListener('change', () => {
       currentPage = 1;
@@ -1123,8 +1303,44 @@
       formAlert.style.display = 'none';
 
       const formData = new FormData(alumniRegisterForm);
-      if (formData.get('department') === 'Other') {
-        formData.set('department', formData.get('other_department'));
+      let selectedImage = formData.get('image');
+      if ((!selectedImage || !selectedImage.name) && selectedImageFile) {
+        formData.set('image', selectedImageFile, selectedImageFile.name);
+        selectedImage = selectedImageFile;
+      }
+      if (!selectedImage || !selectedImage.name) {
+        if (imagePreviewWrap.classList.contains('active')) {
+          clearImagePreview();
+        }
+        formAlert.className = 'status-alert error';
+        formAlert.textContent = 'Please upload a professional profile photo.';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Registration';
+        return;
+      }
+
+      const selectedCountryCode = countryCodeSelect.value;
+      const rawMobileNumber = (formData.get('mobile_number') || '').trim();
+      const mobileDigits = rawMobileNumber.replace(/\D/g, '');
+      if (mobileDigits.length < 6 || mobileDigits.length > 15) {
+        formAlert.className = 'status-alert error';
+        formAlert.textContent = 'Please enter a valid mobile number with 6 to 15 digits.';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Registration';
+        return;
+      }
+
+      if (selectedCountryCode === 'custom') {
+        if (!rawMobileNumber.startsWith('+')) {
+          formAlert.className = 'status-alert error';
+          formAlert.textContent = 'Please include the country code, e.g. +55 11987654321.';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Registration';
+          return;
+        }
+        formData.set('mobile_number', rawMobileNumber.replace(/\s+/g, ' '));
+      } else {
+        formData.set('mobile_number', `${selectedCountryCode} ${rawMobileNumber.replace(/\s+/g, ' ')}`);
       }
 
       console.log('[Form Submission] Form Data preview:', {
@@ -1153,8 +1369,10 @@
         if (response.ok && result.success) {
           console.log('[Form Submission] Registration succeeded!');
           alumniRegisterForm.reset();
-          otherDeptGroup.style.display = 'none';
-          otherDeptInput.required = false;
+          countryCodeSelect.value = '+91';
+          mobileNumberInput.placeholder = 'e.g. 9876543210';
+          mobileNumberInput.title = 'Please enter a valid phone number';
+          clearImagePreview();
           registerModal.classList.remove('active');
           thankYouModal.classList.add('active');
         } else {
